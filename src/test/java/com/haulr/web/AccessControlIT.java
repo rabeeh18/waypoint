@@ -1,0 +1,102 @@
+package com.haulr.web;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.haulr.IntegrationTestSupport;
+import com.haulr.fleet.Driver;
+import com.haulr.fleet.Warehouse;
+import com.haulr.security.Role;
+import com.haulr.shipment.Shipment;
+import com.haulr.trip.Trip;
+import com.haulr.trip.TripService;
+
+@AutoConfigureMockMvc
+class AccessControlIT extends IntegrationTestSupport {
+
+    @Autowired MockMvc mvc;
+    @Autowired TripService trips;
+
+    @Test
+    void anonymousVisitorsAreSentToSignIn() throws Exception {
+        mvc.perform(get("/tower")).andExpect(status().is3xxRedirection());
+        mvc.perform(get("/api/tower/snapshot")).andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void driversCannotOpenDispatchOrAdminScreens() throws Exception {
+        mvc.perform(get("/tower").with(user("d").roles("DRIVER"))).andExpect(status().isForbidden());
+        mvc.perform(get("/admin/settings").with(user("d").roles("DRIVER"))).andExpect(status().isForbidden());
+        mvc.perform(post("/api/sim/pause").with(user("d").roles("DRIVER")).with(csrf())).andExpect(status().isForbidden());
+    }
+
+    @Test
+    void dispatchersCannotChangeAdminSettings() throws Exception {
+        mvc.perform(get("/admin/settings").with(user("x").roles("DISPATCHER"))).andExpect(status().isForbidden());
+        mvc.perform(post("/admin/rules/BREAKDOWN").param("points", "0").with(user("x").roles("DISPATCHER")).with(csrf()))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void aDriverCanOnlyActOnTheirOwnTrip() throws Exception {
+        Warehouse w = warehouse();
+        Driver mine = driver(w, "Mine");
+        mine.setUser(account("mine", Role.DRIVER));
+        drivers.save(mine);
+        Driver other = driver(w, "Other");
+        other.setUser(account("other", Role.DRIVER));
+        drivers.save(other);
+        Trip trip = trips.plan(new TripService.PlanRequest(w.getId(), List.of(shipment(w, 30.8, 75.2, 100).getId()),
+            vehicle(w, 2500).getId(), mine.getId(), clock.now(), false));
+
+        mvc.perform(post("/driver/trips/" + trip.getId() + "/start").with(user("other").roles("DRIVER")).with(csrf()))
+            .andExpect(status().isForbidden());
+        mvc.perform(post("/driver/trips/" + trip.getId() + "/start").with(user("mine").roles("DRIVER")).with(csrf()))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void publicTrackingNeedsTheMatchingPinCode() throws Exception {
+        Warehouse w = warehouse();
+        Shipment s = shipment(w, 30.8, 75.2, 100);
+        mvc.perform(post("/track").param("n", s.getTrackingNo()).param("pin", "000000").with(csrf()))
+            .andExpect(status().isOk())
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("could not find")));
+        mvc.perform(post("/track").param("n", s.getTrackingNo()).param("pin", "142001").with(csrf()))
+            .andExpect(status().isOk())
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("waiting at the warehouse to be put on a truck")));
+    }
+
+    @Test
+    void simulationControlsDoNotExistOutsideDemoMode() throws Exception {
+        mvc.perform(post("/api/sim/pause").with(user("x").roles("DISPATCHER")).with(csrf())).andExpect(status().isNotFound());
+        mvc.perform(post("/demo-login").param("as", "admin").with(csrf())).andExpect(status().isNotFound());
+        mvc.perform(get("/demo")).andExpect(status().isNotFound());
+        mvc.perform(get("/login")).andExpect(status().isOk())
+            .andExpect(content().string(org.hamcrest.Matchers.not(org.hamcrest.Matchers.containsString("href=\"/demo\""))));
+    }
+
+    @Test
+    void signInPageOpensOnTrackingUnlessStaffIsAsked() throws Exception {
+        mvc.perform(get("/login")).andExpect(status().isOk())
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("id=\"pane-staff\" role=\"tabpanel\" aria-labelledby=\"tab-staff\" hidden")));
+        mvc.perform(get("/login").param("staff", "")).andExpect(status().isOk())
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("id=\"pane-track\" role=\"tabpanel\" aria-labelledby=\"tab-track\" hidden")));
+    }
+
+    @Test
+    void stateChangesWithoutACsrfTokenAreRejected() throws Exception {
+        mvc.perform(post("/api/sim/pause").with(user("x").roles("DISPATCHER"))).andExpect(status().isForbidden());
+    }
+}

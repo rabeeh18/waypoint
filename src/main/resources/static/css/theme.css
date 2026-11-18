@@ -1,0 +1,27 @@
+/* Haulr theme: warm paper, one green accent, serif headings. Loaded after app.css. */
+:root {
+  --ground: #f5f1e8; --paper: #fbf9f3; --paper-2: #f1ede1; --paper-3: #ebe6d8;
+  --ink: #24231f; --ink-2: #5d5a50; --ink-3: #78746a;
+  --rule: #cfc8b6; --rule-soft: #e0d9c9; --rule-faint: #ebe6d8;
+  --survey-blue: #1f5d4b; --survey-blue-tint: #dfeae3;
+  --contour: #8a6a3a; --forest: #2e7a4f; --forest-tint: #dfeae3;
+  --ochre: #8a5a10; --ochre-tint: #f4e5c8; --orange: #b86e12; --orange-tint: #f6e3c8;
+  --road: #a8321f; --road-tint: #f3d9d1;
+  --font: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --serif: "Fraunces", Georgia, serif;
+  --radius: 8px;
+  --shadow: 0 8px 24px rgba(36,35,31,.10), 0 1px 3px rgba(36,35,31,.08);
+}
+body { font-variation-settings: normal; }
+h1, h2, h3, .sheet-title, .brand, [class*="title"] {
+  font-family: var(--serif); font-variation-settings: normal;
+  text-transform: none; letter-spacing: -.01em; font-weight: 500;
+}
+th, label, .eyebrow { letter-spacing: .05em; font-variation-settings: normal; }
+.btn, button, input, select, textarea { border-radius: var(--radius); }
+.panel, .card, section[class*="panel"], .kpi, .legend, table { border-color: var(--rule-soft); }
+.panel, .card { border-radius: 12px; }
+.btn.primary, button.primary, .btn-primary { background: var(--survey-blue); border-color: var(--survey-blue); color: #fff; }
+.leaflet-tile-pane { filter: grayscale(.8) sepia(.25) brightness(1.04) contrast(.92); }
+.mark-p4 { font: 600 var(--s)/1 var(--serif) !important; color: #fff !important; background: var(--survey-blue); border-radius: 22%; width: 1.35em; height: 1.35em; display: inline-grid; place-items: center; font-size: calc(var(--s) * .8) !important; padding: 0 !important; }
+.mark-p4 span { display: none; }

@@ -1,0 +1,89 @@
+package com.haulr.incident;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
+
+import com.haulr.fleet.Vehicle;
+import com.haulr.risk.SlaBreachEvent;
+import com.haulr.risk.SlaBreachRepository;
+import com.haulr.shipment.Shipment;
+import com.haulr.shipment.ShipmentRepository;
+import com.haulr.trip.RiskBand;
+import com.haulr.trip.Trip;
+import com.haulr.trip.TripEvents;
+import com.haulr.trip.TripRepository;
+import com.haulr.trip.TripStop;
+import com.haulr.trip.TripStopRepository;
+
+/**
+ * Turns reported trip events into incidents and SLA breach records. Monitoring finds conditions;
+ * this handles facts someone reported: a breakdown, a failed delivery, a late hand-over.
+ */
+@Component
+public class TripEventIncidents {
+
+    private final IncidentService incidents;
+    private final TripRepository trips;
+    private final TripStopRepository stops;
+    private final ShipmentRepository shipments;
+    private final SlaBreachRepository breaches;
+
+    public TripEventIncidents(IncidentService incidents, TripRepository trips, TripStopRepository stops,
+                              ShipmentRepository shipments, SlaBreachRepository breaches) {
+        this.incidents = incidents;
+        this.trips = trips;
+        this.stops = stops;
+        this.shipments = shipments;
+        this.breaches = breaches;
+    }
+
+    @TransactionalEventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void onBreakdown(TripEvents.VehicleBrokeDown e) {
+        Trip trip = trips.findWithResourcesById(e.tripId()).orElseThrow();
+        Vehicle v = trip.getVehicle();
+        long remaining = trip.getStops().stream().filter(s -> !s.getStatus().isDone()).count();
+        incidents.detect(new IncidentService.Detection(e.tripId(), IncidentType.BREAKDOWN, RiskBand.HIGH,
+            v.getRegistration() + " broke down on " + trip.getCode() + " with " + remaining + " stops remaining",
+            e.note(), null, v));
+    }
+
+    @TransactionalEventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void onFailed(TripEvents.StopFailed e) {
+        TripStop stop = stops.findById(e.stopId()).orElseThrow();
+        Trip trip = stop.getTrip();
+        List<Shipment> failed = shipments.findByStopId(e.stopId());
+        for (Shipment s : failed) {
+            if (!breaches.existsByShipmentIdAndKind(s.getId(), SlaBreachEvent.Kind.FAILED)) {
+                breaches.save(new SlaBreachEvent(s.getId(), trip.getId(), s.getDeadline(), stop.getActualDeparture(),
+                    (int) Math.max(0, Duration.between(s.getDeadline(), stop.getActualDeparture()).toMinutes()),
+                    SlaBreachEvent.Kind.FAILED));
+            }
+        }
+        // Not an incident: the parcel's warehouse desk sees it under "Coming back" and rebooks it.
+    }
+
+    @TransactionalEventListener
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void onCompleted(TripEvents.StopCompleted e) {
+        TripStop stop = stops.findById(e.stopId()).orElseThrow();
+        for (Shipment s : shipments.findByStopId(e.stopId())) {
+            if (s.getDeliveredAt() != null && s.getDeliveredAt().isAfter(s.getDeadline())
+                    && !breaches.existsByShipmentIdAndKind(s.getId(), SlaBreachEvent.Kind.LATE_DELIVERY)) {
+                breaches.save(new SlaBreachEvent(s.getId(), stop.getTrip().getId(), s.getDeadline(), s.getDeliveredAt(),
+                    (int) Duration.between(s.getDeadline(), s.getDeliveredAt()).toMinutes(), SlaBreachEvent.Kind.LATE_DELIVERY));
+            }
+        }
+    }
+
+    @TransactionalEventListener
+    public void onTripEnded(TripEvents.TripEnded e) {
+        incidents.closeTransientForTrip(e.tripId());
+    }
+}
