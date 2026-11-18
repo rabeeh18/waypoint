@@ -1,4 +1,4 @@
-/* Waypoint map: a clean Leaflet map with round truck pins and diamond depots. Exposes window.WaypointMap. */
+/* Parcelo map: a clean Leaflet map with round truck pins and diamond depots. Exposes window.ParceloMap. */
 (function () {
   'use strict';
   const INDIA = [[8.0, 68.5], [35.5, 97.5]];
@@ -46,5 +46,5 @@
     html: `<span>${label}</span>`, iconSize: [22, 22], iconAnchor: [11, 11]
   });
 
-  window.WaypointMap = { create, decode, truckIcon, depotIcon, stopIcon, COLORS };
+  window.ParceloMap = { create, decode, truckIcon, depotIcon, stopIcon, COLORS };
 })();

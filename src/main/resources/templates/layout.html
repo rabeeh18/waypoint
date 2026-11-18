@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="_csrf" th:content="${_csrf != null ? _csrf.token : ''}">
   <meta name="_csrf_header" th:content="${_csrf != null ? _csrf.headerName : ''}">
-  <title th:text="${title} + ' · Waypoint'">Waypoint</title>
+  <title th:text="${title} + ' · Parcelo'">Parcelo</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,9 +20,9 @@
 <svg th:fragment="spot" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 0.8 9.4 9.2H0.6z" fill="currentColor"/></svg>
 
 <header th:fragment="header(active)" class="topbar">
-  <a class="brand" href="/" aria-label="Waypoint home">
-    <span class="mark-p4" style="--s:28px" aria-hidden="true">W</span>
-    <span><span class="sheet-title">Waypoint</span><span class="brand-sub" th:text="${demoMode} ? 'Demo data' : 'Live'">Live</span></span>
+  <a class="brand" href="/" aria-label="Parcelo home">
+    <svg class="logo" style="width:var(--s,28px);height:var(--s,28px)" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="var(--logo-bg,#24231f)"/><path d="M32 12 L50 21 L50 43 L32 52 L14 43 L14 21Z M14 21 L32 30 L50 21 M32 30 L32 52" fill="none" stroke="var(--logo-fg,#f5f1e8)" stroke-width="3.5" stroke-linejoin="round"/></svg>
+    <span><span class="sheet-title">Parcelo</span><span class="brand-sub" th:text="${demoMode} ? 'Demo data' : 'Live'">Live</span></span>
   </a>
   <nav aria-label="Main">
     <ul class="nav">

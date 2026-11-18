@@ -1,7 +1,7 @@
 -- Sign-in by email, invite-only accounts and password reset links.
 
 alter table users add column email varchar(254);
-update users set email = username || '@waypoint.example';
+update users set email = username || '@Parcelo.example';
 alter table users alter column email set not null;
 create unique index ux_users_email on users (lower(email));
 

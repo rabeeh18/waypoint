@@ -1,9 +1,9 @@
-/* Waypoint theme: warm paper, one green accent, serif headings. Loaded after app.css. */
+/* Parcelo theme: warm paper, one green accent, serif headings. Loaded after app.css. */
 :root {
   --ground: #f5f1e8; --paper: #fbf9f3; --paper-2: #f1ede1; --paper-3: #ebe6d8;
   --ink: #24231f; --ink-2: #5d5a50; --ink-3: #78746a;
   --rule: #cfc8b6; --rule-soft: #e0d9c9; --rule-faint: #ebe6d8;
-  --survey-blue: #1f5d4b; --survey-blue-tint: #dfeae3;
+  --survey-blue: #24231f; --survey-blue-tint: #e8e2d2;
   --contour: #8a6a3a; --forest: #2e7a4f; --forest-tint: #dfeae3;
   --ochre: #8a5a10; --ochre-tint: #f4e5c8; --orange: #b86e12; --orange-tint: #f6e3c8;
   --road: #a8321f; --road-tint: #f3d9d1;
@@ -100,3 +100,24 @@ input::placeholder { color: var(--ink-3); }
 .timeline li { padding-left: 28px; }
 .timeline .node { left: 0; top: 4px; width: 14px; height: 14px; box-sizing: border-box; }
 .timeline li::before { left: 6px; top: 20px; }
+
+
+/* ---- Parcelo look: ink and cream, dark sidebar ---- */
+.topbar { background: #24231f; border-right: 0; color: #f5f1e8; --logo-bg: #f5f1e8; --logo-fg: #24231f; }
+.topbar .brand, .topbar .brand .sheet-title { color: #f5f1e8; }
+.topbar .brand-sub { color: #a8a392; }
+.topbar .nav a { color: #cfc9b8; }
+.topbar .nav a:hover { background: rgba(245,241,232,.08); color: #f5f1e8; }
+.topbar .nav a[aria-current="page"] { background: #f5f1e8; color: #24231f; }
+.topbar .usermenu { border-top-color: rgba(245,241,232,.15); }
+.topbar .usermenu-name, .topbar .iconbtn { color: #f5f1e8; }
+.topbar .usermenu-role { color: #a8a392; }
+.logo { display: block; flex: none; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.btn-primary, .btn.btn-primary { background: #24231f; border-color: #24231f; color: #f5f1e8; }
+.btn-primary:hover { background: #3a3832; }
+.tabs a[aria-selected="true"] { border-color: #24231f; }
+.login-collar .logo, .track-card .logo { --s: 48px; }
+.hm-stop.is-next span { border-color: #24231f; color: #24231f; box-shadow: 0 0 0 4px rgba(36,35,31,.18); }
+.hm-truck.is-selected span { box-shadow: 0 0 0 5px rgba(36,35,31,.2), 0 1px 5px rgba(0,0,0,.4); }
+.bar i { background: #24231f; }

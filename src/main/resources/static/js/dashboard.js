@@ -6,7 +6,7 @@
   const { api, fmtTime, esc } = window.Fleet;
 
   const mapHost = root.querySelector('[data-live-map]');
-  const map = WaypointMap.create(mapHost);
+  const map = ParceloMap.create(mapHost);
   const pins = new Map();
   let fitted = false;
   const LABEL = { LOW: ['On time', 'tag-green'], MEDIUM: ['May be late', 'tag-ochre'], HIGH: ['Late', 'tag-red'], CRITICAL: ['Late', 'tag-red'] };
@@ -44,7 +44,7 @@
 
   function renderMap(snap) {
     if (!fitted) {
-      snap.warehouses.forEach(w => L.marker([w.lat, w.lng], { icon: WaypointMap.depotIcon() }).bindTooltip(w.name).addTo(map));
+      snap.warehouses.forEach(w => L.marker([w.lat, w.lng], { icon: ParceloMap.depotIcon() }).bindTooltip(w.name).addTo(map));
     }
     const seen = new Set();
     const pts = [];
@@ -54,11 +54,11 @@
       pts.push([t.lat, t.lng]);
       let m = pins.get(t.tripId);
       if (!m) {
-        m = L.marker([t.lat, t.lng], { icon: WaypointMap.truckIcon(t.lateMin > 0 ? 'HIGH' : 'LOW') }).addTo(map);
+        m = L.marker([t.lat, t.lng], { icon: ParceloMap.truckIcon(t.lateMin > 0 ? 'HIGH' : 'LOW') }).addTo(map);
         m.on('click', () => { location.href = '/trips/' + t.tripId; });
         pins.set(t.tripId, m);
       }
-      m.setLatLng([t.lat, t.lng]).setIcon(WaypointMap.truckIcon(t.lateMin > 0 ? 'HIGH' : 'LOW'));
+      m.setLatLng([t.lat, t.lng]).setIcon(ParceloMap.truckIcon(t.lateMin > 0 ? 'HIGH' : 'LOW'));
       m.unbindTooltip().bindTooltip(`${esc(t.code)} · ${esc(t.route)}`);
     });
     pins.forEach((m, id) => { if (!seen.has(id)) { map.removeLayer(m); pins.delete(id); } });

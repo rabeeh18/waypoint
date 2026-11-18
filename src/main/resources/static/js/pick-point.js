@@ -6,12 +6,12 @@
   const lat = document.querySelector('[data-lat]');
   const lng = document.querySelector('[data-lng]');
   const label = document.querySelector('[data-pick-label]');
-  const map = WaypointMap.create(host);
+  const map = ParceloMap.create(host);
   let marker = null;
 
   function place(p) {
     if (!marker) {
-      marker = L.marker(p, { icon: WaypointMap.stopIcon('•', 'PENDING', true), draggable: true }).addTo(map);
+      marker = L.marker(p, { icon: ParceloMap.stopIcon('•', 'PENDING', true), draggable: true }).addTo(map);
       marker.on('dragend', () => place(marker.getLatLng()));
     } else {
       marker.setLatLng(p);
