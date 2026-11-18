@@ -7,7 +7,7 @@
   <div class="page-head">
     <div>
       <h1>Trips</h1>
-      <p class="sub">Every planned, live and finished trip. Live trips show their current risk.</p>
+      <p class="sub">Every planned, live and finished trip.</p>
     </div>
     <div class="page-actions">
       <a class="btn btn-primary" href="/planning"><svg class="icon"><use href="/img/icons.svg#i-plus"></use></svg>Plan a trip</a>
@@ -36,19 +36,13 @@
     <div class="table-wrap">
       <table class="data">
         <thead><tr>
-          <th>Trip</th><th>Status</th><th>Risk</th><th>Vehicle</th><th>Driver</th><th>Warehouse</th>
+          <th>Trip</th><th>Status</th><th>Vehicle</th><th>Driver</th><th>Warehouse</th>
           <th>Planned start</th><th class="r">Stops</th><th class="r">Load</th><th>Finished</th>
         </tr></thead>
         <tbody>
           <tr th:each="t : ${page.content}" th:attr="data-href=@{/trips/{id}(id=${t.id})}">
             <td><a th:href="@{/trips/{id}(id=${t.id})}" th:text="${t.code}" style="font-weight:700">TR</a></td>
             <td><span th:replace="~{parts :: tripStatus(${t.status})}"></span></td>
-            <td>
-              <th:block th:with="s=${live[t.id]}">
-                <th:block th:if="${s != null}"><span th:replace="~{parts :: spot(${s.riskScore}, ${s.riskBand})}"></span></th:block>
-                <th:block th:if="${s == null}"><span th:replace="~{parts :: spot(${t.riskScore}, ${t.riskBand.name()})}"></span></th:block>
-              </th:block>
-            </td>
             <td><span class="plate" th:text="${t.vehicle.registration}">PB</span></td>
             <td th:text="${t.driver.fullName}">Driver</td>
             <td th:text="${t.warehouse.name}">WH</td>

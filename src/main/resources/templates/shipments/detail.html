@@ -30,7 +30,6 @@
         <dl class="facts">
           <dt>Recipient</dt><dd th:text="${s.recipientName} + (${s.recipientPhone} != null ? ' · ' + ${s.recipientPhone} : '')">r</dd>
           <dt>PIN code</dt><dd th:text="${s.destPin}">pin</dd>
-          <dt>Grid square</dt><dd><span class="grid-ref" th:text="${@fmt.grid(s.destLat, s.destLng)}">A1</span></dd>
           <dt>Ships from</dt><dd th:text="${s.originWarehouse.name}">wh</dd>
           <dt>Weight</dt><dd th:text="${s.weightKg} + ' kg'">kg</dd>
           <dt>Deliver by</dt><dd th:text="${@fmt.dateTime(s.deadline)}">t</dd>

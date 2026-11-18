@@ -76,9 +76,7 @@
           <div class="field">
             <label for="start">Departs</label>
             <input id="start" type="datetime-local" name="plannedStart" th:value="${defaultStart}" required>
-            <div class="hint">Simulated trips depart automatically at this time.</div>
           </div>
-          <label class="check field"><input type="checkbox" name="autoComplete" value="true" checked> Simulated driver completes deliveries</label>
           <label class="check field"><input type="checkbox" name="startNow" value="true"> Start immediately</label>
           <button class="btn btn-primary" type="submit" style="width:100%" data-submit>Plan trip</button>
           <p class="hint" style="margin-top:8px">Capacity, driver licence and availability are checked again when you submit.</p>

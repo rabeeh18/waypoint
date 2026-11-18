@@ -4,7 +4,7 @@
   'use strict';
   const nav = document.querySelector('[data-login-tabs]');
   if (!nav) return;
-  const KEY = 'haulr.loginTab';
+  const KEY = 'waypoint.loginTab';
   const tabs = [...nav.querySelectorAll('[data-tab]')];
 
   function show(name, focus) {

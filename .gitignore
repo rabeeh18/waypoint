@@ -17,3 +17,7 @@ target/
 .project
 .settings/
 .factorypath
+
+run.log
+run.err
+.env.local

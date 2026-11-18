@@ -10,12 +10,7 @@
   const hint = form.querySelector('[data-load-hint]');
   const submit = form.querySelector('[data-submit]');
   const countEl = form.querySelector('[data-stop-count]');
-  const mapHost = form.querySelector('[data-plan-map]');
 
-  const sheet = SheetMap.create(mapHost, { compact: true });
-  const wh = [Number(mapHost.dataset.whLat), Number(mapHost.dataset.whLng)];
-  L.marker(wh, { icon: SheetMap.warehouseIcon(mapHost.dataset.whCode) }).addTo(sheet.map);
-  const stops = L.layerGroup().addTo(sheet.map);
 
   function update() {
     const chosen = boxes.filter(b => b.checked);
@@ -31,18 +26,9 @@
     hint.style.color = load > cap ? 'var(--road)' : '';
     submit.disabled = chosen.length === 0 || load > cap || !vehicle.value;
 
-    stops.clearLayers();
-    const seen = new Map();
-    chosen.forEach(b => seen.set(`${Number(b.dataset.lat).toFixed(4)},${Number(b.dataset.lng).toFixed(4)}`, b));
-    const pts = [wh];
-    [...seen.values()].forEach((b, i) => {
-      const p = [Number(b.dataset.lat), Number(b.dataset.lng)];
-      pts.push(p);
-      L.marker(p, { icon: SheetMap.stopIcon('•', 'PENDING', false, 'DELIVERY') })
-        .bindTooltip(Fleet.esc(b.dataset.name), { className: 'sym-tip', direction: 'top' }).addTo(stops);
-    });
+    const seen = new Set();
+    chosen.forEach(b => seen.add(`${Number(b.dataset.lat).toFixed(4)},${Number(b.dataset.lng).toFixed(4)}`));
     countEl.textContent = `${seen.size} stop${seen.size === 1 ? '' : 's'}`;
-    if (pts.length > 1) sheet.map.fitBounds(pts, { padding: [20, 20], maxZoom: 11 });
   }
 
   boxes.forEach(b => b.addEventListener('change', update));

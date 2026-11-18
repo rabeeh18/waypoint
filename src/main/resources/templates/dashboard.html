@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <th:block th:replace="~{layout :: head('Overview')}"></th:block>
+  <th:block th:replace="~{layout :: leafletCss}"></th:block>
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+<header th:replace="~{layout :: header('dashboard')}"></header>
+
+<main class="page" data-dashboard>
+  <div class="page-head"><div><h1>Overview</h1><p class="sub">Everything on the road right now. Updates every few seconds.</p></div>
+    <div class="page-actions"><a class="btn btn-primary" href="/planning">Plan a trip</a></div></div>
+
+  <section class="legend-strip stat-line" aria-label="Today">
+    <div class="legend-cell"><span class="figure" data-kpi="activeTrips" th:text="${kpi.activeTrips}">0</span><span class="label">on the road</span></div>
+    <div class="legend-cell"><span class="figure" data-kpi="deliveredToday" th:text="${kpi.deliveredToday}">0</span><span class="label">delivered today</span></div>
+    <div class="legend-cell" data-tone-for="atRisk"><span class="figure" data-kpi="atRisk" th:text="${kpi.atRisk}">0</span><span class="label">running late</span></div>
+    <div class="legend-cell"><span class="figure" data-kpi="idleVehicles" th:text="${kpi.idleVehicles}">0</span><span class="label">vehicles free</span></div>
+  </section>
+
+  <section class="panel map-panel" aria-label="Live map"><div data-live-map></div></section>
+
+  <div class="dash-grid" style="margin-top:20px;grid-template-columns:1fr">
+    <section class="panel">
+      <div class="panel-head"><h2>Live deliveries</h2><span class="small muted" data-trip-count></span></div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Trip</th><th>Route</th><th>Vehicle</th><th>Progress</th><th>Next ETA</th><th>Status</th></tr></thead>
+          <tbody data-trip-rows><tr><td colspan="6" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<th:block th:replace="~{layout :: scripts}"></th:block>
+<th:block th:replace="~{layout :: leafletJs}"></th:block>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

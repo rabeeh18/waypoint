@@ -177,11 +177,6 @@
     toast(n.title, n.body, n.severity, n.link);
     refreshNoteCount();
   });
-  subscribe('/topic/fleet/incidents', () => {
-    api('GET', '/api/tower/kpis').then(k => {
-      document.querySelectorAll('[data-incident-count]').forEach(el => { el.textContent = k.openIncidents > 0 ? k.openIncidents : ''; });
-    }).catch(() => {});
-  });
   subscribe('/topic/fleet/positions', frame => clock.sync(frame.t, frame.speed, frame.paused));
 
   // Rows that link somewhere.

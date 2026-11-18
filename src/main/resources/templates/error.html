@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title th:text="${status} + ' · Haulr'">Error · Haulr</title>
+  <title th:text="${status} + ' · Waypoint'">Error · Waypoint</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/app.css">
   <link rel="stylesheet" href="/css/theme.css">
 </head>
-<body>
+<body style="padding-left:0">
 <main class="login">
   <section class="login-sheet">
     <p class="caps" th:text="'Error ' + ${status}">Error</p>
     <h1 style="font-size:24px;margin:6px 0 10px" th:switch="${status}">
-      <th:block th:case="404">This page is off the map.</th:block>
+      <th:block th:case="404">We couldn't find that page.</th:block>
       <th:block th:case="403">You don't have access to this.</th:block>
       <th:block th:case="*">Something went wrong on our side.</th:block>
     </h1>

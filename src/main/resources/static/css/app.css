@@ -1,5 +1,5 @@
 /* Fleet Operations — "Toposheet" visual system.
-   A survey sheet's palette, lettering and neatline frame applied to a working control tower.
+   A survey sheet's palette, lettering and neatline frame applied to a working dashboard.
    The world lends type, palette, density and one signature move (the gridded, neatlined map
    with grid references everywhere); layout and controls stay standard. */
 
@@ -583,7 +583,7 @@ details > summary { cursor: pointer; }
 .mark-p4 { --s: 28px; flex: none; font: 800 var(--s)/1 "Anek Gurmukhi", sans-serif; font-variation-settings: "wdth" 110; color: var(--ink); }
 .mark-p4 span { color: var(--road); }
 /* Gurmukhi letters hang from a tall top line, so their ink sits high in the line box. Nudge the
-   mark down so its visual centre lines up with the HAULR capitals and the menu text (measured). */
+   mark down so its visual centre lines up with the WAYPOINT capitals and the menu text (measured). */
 .mark-p4 { position: relative; top: .09em; }.data .sub.cnote { color: var(--ochre); }
 
 /* ------------------------------------------------------------------ warehouse desk and complaints */
