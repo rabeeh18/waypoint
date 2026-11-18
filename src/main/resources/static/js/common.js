@@ -41,6 +41,22 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const icon = (name, cls) => `<svg class="icon ${cls || ''}" aria-hidden="true"><use href="/img/icons.svg#i-${name}"></use></svg>`;
   /** A trip's light: On track, Watch or Needs action; the risk points are in the tooltip. */
+  // ------------------------------------------------------------------ clock
+  // Shows the server's time (IST), so it matches the times in the tables.
+  const clockEl = document.querySelector('[data-clock]');
+  if (clockEl) {
+    const offset = Number(clockEl.dataset.now) - Date.now();
+    const timeEl = clockEl.querySelector('[data-clock-time]');
+    const dateEl = clockEl.querySelector('[data-clock-date]');
+    const tick = () => {
+      const now = Date.now() + offset;
+      timeEl.textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: TZ }).format(now);
+      dateEl.textContent = dateFmt.format(now) + ' · IST';
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
   // ------------------------------------------------------------------ toasts
 
   const toastStack = document.querySelector('[data-toasts]');

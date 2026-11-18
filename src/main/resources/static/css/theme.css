@@ -112,3 +112,8 @@ input::placeholder { color: var(--ink-3); }
 .hm-stop.is-next span { border-color: #24231f; color: #24231f; box-shadow: 0 0 0 4px rgba(36,35,31,.18); }
 .hm-truck.is-selected span { box-shadow: 0 0 0 5px rgba(36,35,31,.2), 0 1px 5px rgba(0,0,0,.4); }
 .bar i { background: #24231f; }
+
+/* ---- clock in the sidebar ---- */
+.clock { padding: 10px 12px; border-radius: 10px; background: rgba(245,241,232,.08); }
+.clock-time { display: block; font: 500 24px/1.1 var(--serif); color: #f5f1e8; font-variant-numeric: tabular-nums; }
+.clock-date { display: block; margin-top: 2px; font-size: 12px; color: #a8a392; }

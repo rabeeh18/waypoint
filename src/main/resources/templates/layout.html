@@ -34,6 +34,7 @@
     </ul>
   </nav>
   <div class="topbar-right">
+    <div class="clock" data-clock th:attr="data-now=${clockState.now}"><span class="clock-time" data-clock-time>--:--</span><span class="clock-date" data-clock-date>&nbsp;</span></div>
     <div class="usermenu">
       <span><span class="usermenu-name" th:text="${me.name}">Name</span><span class="usermenu-role" th:text="${me.role}">Role</span></span>
       <form method="post" action="/logout">
