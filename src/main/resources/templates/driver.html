@@ -7,9 +7,12 @@
 </head>
 <body class="driver-body">
 <header class="drv-top">
-  <div>
-    <span class="brand-name">Parcelo</span>
-    <span class="drv-who" th:text="${driver.fullName}">Driver</span>
+  <div class="drv-brand">
+    <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="var(--logo-bg,#24231f)"/><path d="M32 12 L50 21 L50 43 L32 52 L14 43 L14 21Z M14 21 L32 30 L50 21 M32 30 L32 52" fill="none" stroke="var(--logo-fg,#f5f1e8)" stroke-width="3.5" stroke-linejoin="round"/></svg>
+    <div>
+      <span class="brand-name">Parcelo</span>
+      <span class="drv-who" th:text="${driver.fullName}">Driver</span>
+    </div>
   </div>
   <form method="post" action="/logout">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

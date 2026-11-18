@@ -83,8 +83,6 @@ input:not([type=checkbox]):not([type=radio]):not([type=hidden]), select, textare
 input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-tint); }
 input::placeholder { color: var(--ink-3); }
 .driver-body { padding-left: 0; }
-.drv-top { background: var(--paper) !important; color: var(--ink) !important; border-bottom: 1px solid var(--rule-soft); }
-.drv-top a, .drv-top button, .drv-top .brand-name, .drv-top span { color: var(--ink) !important; }
 
 /* ---- timelines: keep the dots inside the panel ---- */
 .panel .timeline { padding: 16px 20px 4px; }
@@ -123,3 +121,11 @@ input::placeholder { color: var(--ink-3); }
 .demo-role-static { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: center; padding: 14px 16px; border: 1px solid var(--rule-soft); border-radius: 12px; background: var(--paper); }
 .demo-role-static .icon { grid-row: span 2; }
 .demo-role-static select, .demo-role-static .btn { grid-column: 1 / -1; margin-top: 8px; }
+
+/* ---- driver header: ink bar with the logo, like the dispatcher sidebar ---- */
+.drv-top { gap: 12px; --logo-bg: #f5f1e8; --logo-fg: #24231f; }
+.drv-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.drv-brand .logo { width: 32px; height: 32px; }
+.drv-top .brand-name { font-family: var(--serif); font-size: 17px; line-height: 1.15; color: #f5f1e8; }
+.drv-who { color: #cfc9b8; opacity: 1; }
+.drv-top .drv-link { color: #f5f1e8; text-decoration: none; border: 1px solid rgba(245,241,232,.35); border-radius: 8px; padding: 6px 12px; }
