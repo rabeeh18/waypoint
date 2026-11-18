@@ -73,14 +73,6 @@ public class DriverAppController {
         return "driver";
     }
 
-    @PostMapping("/driver/trips/{id}/start")
-    public String start(@PathVariable long id, Authentication auth, RedirectAttributes ra) {
-        own(id, auth);
-        tripService.start(id);
-        ra.addFlashAttribute("ok", "Trip started. Drive safe.");
-        return "redirect:/driver";
-    }
-
     @PostMapping("/driver/trips/{id}/stops/{stopId}/arrive")
     public String arrive(@PathVariable long id, @PathVariable long stopId, Authentication auth) {
         own(id, auth);
