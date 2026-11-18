@@ -32,7 +32,7 @@
       </div>
       <div class="table-wrap" style="max-height:62vh;overflow:auto">
         <table class="data">
-          <thead><tr><th></th><th>Shipment</th><th>Destination</th><th>Sq.</th><th class="r">Weight</th><th>Due</th></tr></thead>
+          <thead><tr><th></th><th>Shipment</th><th>Destination</th><th class="r">Weight</th><th>Due</th></tr></thead>
           <tbody>
             <tr th:each="s : ${shipments}">
               <td><input type="checkbox" name="shipment" th:value="${s.id}" th:attr="data-weight=${s.weightKg},data-lat=${s.destLat},data-lng=${s.destLng},data-name=${s.destName}" th:id="'s' + ${s.id}"></td>
@@ -41,7 +41,7 @@
               <td class="r num" th:text="${s.weightKg} + ' kg'">kg</td>
               <td class="num" th:text="${@fmt.when(s.deadline)}">due</td>
             </tr>
-            <tr th:if="${shipments.isEmpty()}"><td colspan="6"><div class="empty"><strong>Nothing waiting here</strong>Book a shipment or choose another warehouse.
+            <tr th:if="${shipments.isEmpty()}"><td colspan="5"><div class="empty"><strong>Nothing waiting here</strong>Book a shipment or choose another warehouse.
               <div style="margin-top:10px"><a class="btn btn-sm" href="/shipments/new">Book a shipment</a></div></div></td></tr>
           </tbody>
         </table>
