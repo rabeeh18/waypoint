@@ -62,7 +62,6 @@ import com.parcelo.trip.TripStop;
 public class DemoSeeder {
 
     private static final Logger log = LoggerFactory.getLogger(DemoSeeder.class);
-    public static final String DEMO_DRIVER_USERNAME = "driver";
 
     private final WarehouseRepository warehouses;
     private final VehicleRepository vehicles;
@@ -144,7 +143,6 @@ public class DemoSeeder {
         String hash = encoder.encode(password);
         users.save(new UserAccount("dispatcher", "dispatcher@parcelo.example", hash, "Neha Kapoor", EnumSet.of(Role.DISPATCHER)));
         users.save(new UserAccount("dispatcher2", "dispatcher2@parcelo.example", hash, "Vikram Sinha", EnumSet.of(Role.DISPATCHER)));
-        UserAccount driverUser = users.save(new UserAccount(DEMO_DRIVER_USERNAME, DEMO_DRIVER_USERNAME + "@parcelo.example", hash, "Ramesh Kumar", EnumSet.of(Role.DRIVER)));
 
         Map<String, Warehouse> byCode = new HashMap<>();
         for (DemoData.WarehouseSeed w : DemoData.WAREHOUSES) {
@@ -175,9 +173,8 @@ public class DemoSeeder {
             String license = w.regPrefix().replace(" ", "") + " " + (2008 + random.nextInt(15)) + " " + String.format("%07d", random.nextInt(9_999_999));
             String phone = "+91 9" + String.format("%09d", random.nextInt(999_999_999));
             Driver driver = new Driver(name, phone, license, expiry, byCode.get(w.code()));
-            if (name.equals("Ramesh Kumar")) {
-                driver.setUser(driverUser);
-            }
+            String username = name.toLowerCase().replace(' ', '-');
+            driver.setUser(users.save(new UserAccount(username, username + "@parcelo.example", hash, name, EnumSet.of(Role.DRIVER))));
             drivers.save(driver);
             d++;
         }

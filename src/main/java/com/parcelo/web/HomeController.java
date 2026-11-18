@@ -22,12 +22,11 @@ import com.parcelo.common.web.NotFoundException;
 import com.parcelo.config.AppMode;
 import com.parcelo.security.Role;
 import com.parcelo.security.SecurityConfig;
+import com.parcelo.security.UserAccount;
 import com.parcelo.security.UserAccountRepository;
 
 @Controller
 public class HomeController {
-
-    private static final Set<String> DEMO_USERS = Set.of("dispatcher", "driver");
 
     private final AppMode mode;
     private final UserAccountRepository users;
@@ -52,6 +51,10 @@ public class HomeController {
      */
     @GetMapping("/login")
     public String login(Model model) {
+        if (mode.demo()) {
+            model.addAttribute("demoDrivers", users.findAll().stream().filter(u -> u.hasRole(Role.DRIVER))
+                .sorted(java.util.Comparator.comparing(UserAccount::getFullName)).toList());
+        }
         model.addAttribute("tab", mode.demo() ? "demo" : "track");
         model.addAttribute("tabFixed", false);
         return "login";
@@ -60,11 +63,11 @@ public class HomeController {
     /** Demo mode only: one-click sign-in as a seeded user, for showing the project. */
     @PostMapping("/demo-login")
     public String demoLogin(@RequestParam("as") String username, HttpServletRequest request, HttpServletResponse response) {
-        if (!mode.demo() || !DEMO_USERS.contains(username)) {
+        UserAccount account = users.findByUsername(username).orElse(null);
+        if (!mode.demo() || account == null || !(username.equals("dispatcher") || account.hasRole(Role.DRIVER))) {
             throw new NotFoundException("Page", "/demo-login");
         }
-        UserDetails user = users.findByUsername(username).map(SecurityConfig::toUserDetails)
-            .orElseThrow(() -> new NotFoundException("User", username));
+        UserDetails user = SecurityConfig.toUserDetails(account);
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(UsernamePasswordAuthenticationToken.authenticated(user, null, user.getAuthorities()));
         SecurityContextHolder.setContext(context);

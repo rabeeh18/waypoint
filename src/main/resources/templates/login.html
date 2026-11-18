@@ -27,8 +27,16 @@
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <button class="demo-role" name="as" value="dispatcher" type="submit"><svg class="icon"><use href="/img/icons.svg#i-map"></use></svg>
           <strong>Dispatcher</strong><span class="small muted">See every trip, plan new ones, book shipments.</span></button>
-        <button class="demo-role" name="as" value="driver" type="submit"><svg class="icon"><use href="/img/icons.svg#i-truck"></use></svg>
-          <strong>Driver</strong><span class="small muted">Start a trip and mark parcels delivered.</span></button>
+      </form>
+      <form method="post" action="/demo-login" class="demo-roles demo-driver">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <div class="demo-role demo-role-static"><svg class="icon"><use href="/img/icons.svg#i-truck"></use></svg>
+          <strong>Driver</strong><span class="small muted">Pick a driver, then start their trip and mark parcels delivered.</span>
+          <select name="as" aria-label="Driver">
+            <option th:each="d : ${demoDrivers}" th:value="${d.username}" th:text="${d.fullName}" th:selected="${d.username == 'ramesh-kumar'}">Driver</option>
+          </select>
+          <button class="btn btn-primary" type="submit">Continue as driver</button>
+        </div>
       </form>
     </section>
 

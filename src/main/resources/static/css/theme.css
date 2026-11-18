@@ -117,3 +117,9 @@ input::placeholder { color: var(--ink-3); }
 .clock { padding: 10px 12px; border-radius: 10px; background: rgba(245,241,232,.08); }
 .clock-time { display: block; font: 500 24px/1.1 var(--serif); color: #f5f1e8; font-variant-numeric: tabular-nums; }
 .clock-date { display: block; margin-top: 2px; font-size: 12px; color: #a8a392; }
+
+/* ---- demo sign-in: driver picker ---- */
+.demo-driver { margin-top: 10px; }
+.demo-role-static { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: center; padding: 14px 16px; border: 1px solid var(--rule-soft); border-radius: 12px; background: var(--paper); }
+.demo-role-static .icon { grid-row: span 2; }
+.demo-role-static select, .demo-role-static .btn { grid-column: 1 / -1; margin-top: 8px; }
