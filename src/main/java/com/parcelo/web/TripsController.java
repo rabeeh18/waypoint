@@ -28,9 +28,7 @@ import com.parcelo.shipment.Shipment;
 import com.parcelo.shipment.ShipmentRepository;
 import com.parcelo.trip.DeliveryProof;
 import com.parcelo.trip.DeliveryProofRepository;
-import com.parcelo.trip.RouteVersionRepository;
 import com.parcelo.trip.Trip;
-import com.parcelo.trip.TripAssignmentRepository;
 import com.parcelo.trip.TripRepository;
 import com.parcelo.trip.TripService;
 import com.parcelo.trip.TripStatus;
@@ -42,8 +40,6 @@ public class TripsController {
     private final TripRepository trips;
     private final TripService tripService;
     private final ShipmentRepository shipments;
-    private final RouteVersionRepository routes;
-    private final TripAssignmentRepository assignments;
     private final DeliveryProofRepository proofs;
     private final RiskEvaluationRepository evaluations;
     private final StatusHistoryService history;
@@ -54,7 +50,6 @@ public class TripsController {
     private final Fmt fmt;
 
     public TripsController(TripRepository trips, TripService tripService, ShipmentRepository shipments,
-                           RouteVersionRepository routes, TripAssignmentRepository assignments,
                            DeliveryProofRepository proofs,
                            RiskEvaluationRepository evaluations, StatusHistoryService history,
                            MonitoringService monitoring,
@@ -62,8 +57,6 @@ public class TripsController {
         this.trips = trips;
         this.tripService = tripService;
         this.shipments = shipments;
-        this.routes = routes;
-        this.assignments = assignments;
         this.proofs = proofs;
         this.evaluations = evaluations;
         this.history = history;
@@ -118,8 +111,6 @@ public class TripsController {
         model.addAttribute("byStop", byStop);
         model.addAttribute("proofByStop", proofByStop);
         model.addAttribute("shipmentCount", tripShipments.size());
-        model.addAttribute("routes", routes.findByTripIdOrderByVersionNoAsc(id));
-        model.addAttribute("assignments", assignments.findByTripIdOrderByAssignedAtAsc(id));
         model.addAttribute("riskHistory", evaluations.findByTripIdOrderByEvaluatedAtAsc(id));
         model.addAttribute("statusHistory", history.historyOf(StatusHistoryService.TRIP, id));
         model.addAttribute("live", monitoring.summary(id));
@@ -144,21 +135,6 @@ public class TripsController {
     public String adjust(@PathVariable long id, @RequestParam int minutes, @RequestParam(required = false) String note, RedirectAttributes ra) {
         tripService.adjustDelay(id, minutes, note);
         ra.addFlashAttribute("ok", "ETA adjustment saved: " + fmt.delta(minutes) + ".");
-        return "redirect:/trips/" + id;
-    }
-
-    @PostMapping("/trips/{id}/recalculate")
-    public String recalculate(@PathVariable long id, @RequestParam(required = false) String reason, RedirectAttributes ra) {
-        tripService.recalculateRoute(id, reason);
-        ra.addFlashAttribute("ok", "Route recalculated from the vehicle's current position.");
-        return "redirect:/trips/" + id;
-    }
-
-    @PostMapping("/trips/{id}/reassign")
-    public String reassign(@PathVariable long id, @RequestParam long vehicleId, @RequestParam long driverId,
-                           @RequestParam(required = false) String reason, RedirectAttributes ra) {
-        tripService.reassign(id, vehicleId, driverId, reason);
-        ra.addFlashAttribute("ok", "Trip reassigned. The new route is live on the dashboard.");
         return "redirect:/trips/" + id;
     }
 

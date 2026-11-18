@@ -26,10 +26,6 @@
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <button class="btn btn-primary" type="submit"><svg class="icon"><use href="/img/icons.svg#i-play"></use></svg>Start trip</button>
       </form>
-      <form th:if="${trip.status.name() == 'IN_PROGRESS'}" method="post" th:action="@{/trips/{id}/recalculate(id=${trip.id})}">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        <button class="btn" type="submit"><svg class="icon"><use href="/img/icons.svg#i-route"></use></svg>Recalculate route</button>
-      </form>
       <a class="btn" href="/dashboard"><svg class="icon"><use href="/img/icons.svg#i-map"></use></svg>Dashboard</a>
       <form method="post" th:action="@{/trips/{id}/cancel(id=${trip.id})}" data-confirm="Cancel this trip? Undelivered shipments go back to planning.">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
@@ -114,24 +110,7 @@
         </form>
       </section>
 
-      <section class="panel">
-        <div class="panel-head"><h2>Route versions</h2></div>
-        <ol class="timeline panel-body">
-          <li th:each="r : ${routes}" th:attr="data-state=${r.active ? 'ARRIVED' : 'COMPLETED'}"><span class="node"></span>
-            <div class="t-head"><span th:text="'v' + ${r.versionNo} + (${r.active} ? ' · active' : '')">v1</span><span class="small muted" th:text="${@fmt.km(r.distanceM)}">km</span></div>
-            <div class="t-meta" th:text="${r.reason} + ' · ' + ${@fmt.when(r.createdAt)} + ' · ' + (${r.createdBy} ?: 'system') + (${r.estimated} ? ' · straight-line estimate' : '')">meta</div></li>
-          <li th:if="${routes.isEmpty()}" class="muted small">Route geometry is not stored for historical trips.</li>
-        </ol>
-      </section>
 
-      <section class="panel">
-        <div class="panel-head"><h2>Assignments</h2></div>
-        <ol class="timeline panel-body">
-          <li th:each="a : ${assignments}" data-state="COMPLETED"><span class="node"></span>
-            <div class="t-head"><span><span class="plate" th:text="${a.vehicle.registration}">PB</span> <th:block th:text="${a.driver.fullName}">d</th:block></span></div>
-            <div class="t-meta" th:text="${a.reason} + ' · ' + ${@fmt.when(a.assignedAt)} + ' · ' + (${a.assignedBy} ?: 'system')">meta</div></li>
-        </ol>
-      </section>
 
     </aside>
   </div>
