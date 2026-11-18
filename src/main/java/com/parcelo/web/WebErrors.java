@@ -1,4 +1,4 @@
-package com.Parcelo.web;
+package com.parcelo.web;
 
 import java.util.Map;
 
@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
-import com.Parcelo.common.web.BusinessRuleException;
+import com.parcelo.common.web.BusinessRuleException;
 
 /**
  * A refused business rule is not an error page: forms go back where they came from with the
  * reason shown, and API calls get a 409 with a message the screen can display.
  */
-@ControllerAdvice(basePackages = "com.Parcelo")
+@ControllerAdvice(basePackages = "com.parcelo")
 public class WebErrors {
 
     @ExceptionHandler({BusinessRuleException.class, OptimisticLockingFailureException.class, DataIntegrityViolationException.class})

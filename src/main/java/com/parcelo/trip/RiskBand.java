@@ -1,4 +1,4 @@
-package com.Parcelo.trip;
+package com.parcelo.trip;
 
 public enum RiskBand {
     // A trip's light. The names are kept from the earlier scoring bands, so stored data stays valid.

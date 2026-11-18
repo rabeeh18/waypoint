@@ -1,5 +1,5 @@
 # Starts the Parcelo app on http://localhost:8080 (PostgreSQL runs as a Windows service).
-#   scripts/run.ps1               demo mode: synthetic Punjab data, simulator, quick sign-in
+#   scripts/run.ps1               demo mode: sample data from six Indian cities and quick sign-in
 . (Join-Path $PSScriptRoot 'env.ps1')
 $service = Get-Service 'postgresql-x64-17' -ErrorAction SilentlyContinue
 if ($service -and $service.Status -ne 'Running') {

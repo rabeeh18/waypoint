@@ -1,4 +1,4 @@
-package com.Parcelo.history;
+package com.parcelo.history;
 
 import java.time.Instant;
 

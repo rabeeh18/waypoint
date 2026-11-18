@@ -1,4 +1,4 @@
-package com.Parcelo.web;
+package com.parcelo.web;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.Parcelo.audit.AuditRepository;
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.fleet.Driver;
-import com.Parcelo.fleet.DriverRepository;
-import com.Parcelo.fleet.DriverStatus;
-import com.Parcelo.fleet.FleetService;
-import com.Parcelo.fleet.MaintenanceRecord;
-import com.Parcelo.fleet.MaintenanceRepository;
-import com.Parcelo.fleet.Vehicle;
-import com.Parcelo.fleet.VehicleRepository;
-import com.Parcelo.fleet.WarehouseRepository;
-import com.Parcelo.trip.TripRepository;
-import com.Parcelo.trip.TripStatus;
+import com.parcelo.audit.AuditRepository;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.fleet.Driver;
+import com.parcelo.fleet.DriverRepository;
+import com.parcelo.fleet.DriverStatus;
+import com.parcelo.fleet.FleetService;
+import com.parcelo.fleet.MaintenanceRecord;
+import com.parcelo.fleet.MaintenanceRepository;
+import com.parcelo.fleet.Vehicle;
+import com.parcelo.fleet.VehicleRepository;
+import com.parcelo.fleet.WarehouseRepository;
+import com.parcelo.trip.TripRepository;
+import com.parcelo.trip.TripStatus;
 
 @Controller
 public class FleetController {
@@ -102,9 +102,9 @@ public class FleetController {
 
     @PostMapping("/fleet/vehicles/{id}")
     public String updateVehicle(@PathVariable long id, @RequestParam String type, @RequestParam int capacityKg,
-                                @RequestParam long warehouseId, @RequestParam(defaultValue = "false") boolean simulated,
+                                @RequestParam long warehouseId,
                                 RedirectAttributes ra) {
-        fleet.updateVehicle(id, type, capacityKg, warehouseId, simulated);
+        fleet.updateVehicle(id, type, capacityKg, warehouseId);
         ra.addFlashAttribute("ok", "Vehicle updated.");
         return "redirect:/fleet/vehicles/" + id;
     }

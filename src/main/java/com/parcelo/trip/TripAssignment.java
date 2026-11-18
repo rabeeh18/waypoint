@@ -1,4 +1,4 @@
-package com.Parcelo.trip;
+package com.parcelo.trip;
 
 import java.time.Instant;
 
@@ -12,8 +12,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import com.Parcelo.fleet.Driver;
-import com.Parcelo.fleet.Vehicle;
+import com.parcelo.fleet.Driver;
+import com.parcelo.fleet.Vehicle;
 
 /** History of vehicle and driver allocations on a trip. The trip row holds the current one. */
 @Entity

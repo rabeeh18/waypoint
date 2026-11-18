@@ -1,4 +1,4 @@
-package com.Parcelo.risk;
+package com.parcelo.risk;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.Parcelo.tracking.LiveTrip;
-import com.Parcelo.trip.StopStatus;
+import com.parcelo.tracking.LiveTrip;
+import com.parcelo.trip.StopStatus;
 
 /**
  * Dynamic ETA for every remaining stop of a trip:

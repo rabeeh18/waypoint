@@ -1,4 +1,4 @@
-package com.Parcelo.shipment;
+package com.parcelo.shipment;
 
 import java.time.Instant;
 
@@ -14,11 +14,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import com.Parcelo.common.geo.GeoPoint;
-import com.Parcelo.common.web.BusinessRuleException;
-import com.Parcelo.fleet.Warehouse;
-import com.Parcelo.trip.Trip;
-import com.Parcelo.trip.TripStop;
+import com.parcelo.common.geo.GeoPoint;
+import com.parcelo.common.web.BusinessRuleException;
+import com.parcelo.fleet.Warehouse;
+import com.parcelo.trip.Trip;
+import com.parcelo.trip.TripStop;
 
 @Entity
 @Table(name = "shipments")
@@ -88,13 +88,6 @@ public class Shipment {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    /** A note from the customer for the driver, written on the tracking page. */
-    @Column(name = "customer_note")
-    private String customerNote;
-
-    @Column(name = "customer_note_at")
-    private Instant customerNoteAt;
-
     protected Shipment() {
     }
 
@@ -162,23 +155,6 @@ public class Shipment {
             throw new BusinessRuleException("Shipment " + trackingNo + " is already " + status.label().toLowerCase());
         }
         this.deadline = newDeadline;
-    }
-
-    /** Customers can leave or change their note until the parcel is delivered or cancelled. */
-    public void leaveNote(String note, Instant at) {
-        if (status.isFinal()) {
-            throw new BusinessRuleException("This parcel is already " + status.label().toLowerCase());
-        }
-        this.customerNote = note;
-        this.customerNoteAt = note == null ? null : at;
-    }
-
-    public String getCustomerNote() {
-        return customerNote;
-    }
-
-    public Instant getCustomerNoteAt() {
-        return customerNoteAt;
     }
 
     public GeoPoint destination() {

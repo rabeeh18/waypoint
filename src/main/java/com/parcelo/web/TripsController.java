@@ -1,4 +1,4 @@
-package com.Parcelo.web;
+package com.parcelo.web;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -17,24 +17,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.Parcelo.common.geo.GeoPoint;
-import com.Parcelo.fleet.DriverRepository;
-import com.Parcelo.fleet.VehicleRepository;
-import com.Parcelo.fleet.WarehouseRepository;
-import com.Parcelo.history.StatusHistoryService;
-import com.Parcelo.risk.MonitoringService;
-import com.Parcelo.risk.RiskEvaluationRepository;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.shipment.ShipmentRepository;
-import com.Parcelo.trip.DeliveryProof;
-import com.Parcelo.trip.DeliveryProofRepository;
-import com.Parcelo.trip.RouteVersionRepository;
-import com.Parcelo.trip.Trip;
-import com.Parcelo.trip.TripAssignmentRepository;
-import com.Parcelo.trip.TripRepository;
-import com.Parcelo.trip.TripService;
-import com.Parcelo.trip.TripStatus;
-import com.Parcelo.trip.TripStop;
+import com.parcelo.common.geo.GeoPoint;
+import com.parcelo.fleet.DriverRepository;
+import com.parcelo.fleet.VehicleRepository;
+import com.parcelo.fleet.WarehouseRepository;
+import com.parcelo.history.StatusHistoryService;
+import com.parcelo.risk.MonitoringService;
+import com.parcelo.risk.RiskEvaluationRepository;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.shipment.ShipmentRepository;
+import com.parcelo.trip.DeliveryProof;
+import com.parcelo.trip.DeliveryProofRepository;
+import com.parcelo.trip.RouteVersionRepository;
+import com.parcelo.trip.Trip;
+import com.parcelo.trip.TripAssignmentRepository;
+import com.parcelo.trip.TripRepository;
+import com.parcelo.trip.TripService;
+import com.parcelo.trip.TripStatus;
+import com.parcelo.trip.TripStop;
 
 @Controller
 public class TripsController {

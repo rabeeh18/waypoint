@@ -1,4 +1,4 @@
-package com.Parcelo.shipment;
+package com.parcelo.shipment;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,17 +43,6 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
 
     @EntityGraph(attributePaths = "originWarehouse")
     List<Shipment> findByStatus(ShipmentStatus status);
-
-    /** Parcels still to be delivered from a warehouse that carry a note from the customer. */
-    @EntityGraph(attributePaths = {"trip"})
-    @Query("""
-        select s from Shipment s
-        where s.originWarehouse.id = :warehouseId and s.customerNote is not null
-          and s.status in (com.Parcelo.shipment.ShipmentStatus.CREATED, com.Parcelo.shipment.ShipmentStatus.PLANNED,
-                           com.Parcelo.shipment.ShipmentStatus.OUT_FOR_DELIVERY)
-        order by s.customerNoteAt desc
-        """)
-    List<Shipment> openNotes(Long warehouseId);
 
     @Query(value = "select nextval('tracking_no_seq')", nativeQuery = true)
     long nextTrackingNumber();

@@ -13,5 +13,5 @@
 .hm-stop span { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 8px; background: #fff; color: var(--ink); border: 2px solid var(--ink); font: 700 11px var(--font); }
 .hm-stop.st-completed span { background: var(--ink); color: #fff; }
 .hm-stop.st-failed span { background: var(--road); border-color: var(--road); color: #fff; }
-.hm-stop.is-next span { border-color: var(--survey-blue); color: var(--survey-blue); box-shadow: 0 0 0 4px rgba(31,93,75,.22); }
+.hm-stop.is-next span { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 0 4px rgba(31,93,75,.22); }
 .pick-map { height: 420px; border-radius: 12px; overflow: hidden; }

@@ -1,4 +1,4 @@
-package com.Parcelo.fleet;
+package com.parcelo.fleet;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-import com.Parcelo.security.UserAccount;
+import com.parcelo.security.UserAccount;
 
 @Entity
 @Table(name = "drivers")

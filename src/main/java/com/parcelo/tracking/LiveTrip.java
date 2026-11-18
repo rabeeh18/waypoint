@@ -1,4 +1,4 @@
-package com.Parcelo.tracking;
+package com.parcelo.tracking;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-import com.Parcelo.common.geo.GeoPoint;
-import com.Parcelo.common.geo.RouteLine;
-import com.Parcelo.trip.StopStatus;
-import com.Parcelo.trip.TripStop;
+import com.parcelo.common.geo.GeoPoint;
+import com.parcelo.common.geo.RouteLine;
+import com.parcelo.trip.StopStatus;
+import com.parcelo.trip.TripStop;
 
 /**
  * In-memory operational picture of one in-progress trip: where the vehicle is along its active
  * route, which stops remain, and how fast it has really been moving. Updated by location
- * ingestion; read by the simulator, ETA engine and broadcaster. Guard access with the instance lock.
+ * ingestion; read by the ETA engine and broadcaster. Guard access with the instance lock.
  */
 public final class LiveTrip {
 
@@ -57,8 +57,6 @@ public final class LiveTrip {
     public final String driverName;
     public final int routeVersionNo;
     public final RouteLine route;
-    public final boolean simulated;
-    public final boolean autoCompleteStops;
     public final int delayAdjustMin;
 
     /** Cumulative distance at the end of each leg, and planned seconds per leg. */
@@ -79,7 +77,7 @@ public final class LiveTrip {
 
     LiveTrip(long tripId, String tripCode, long vehicleId, String registration, String driverName, int routeVersionNo,
              RouteLine route, List<Integer> legDistances, List<Integer> legDurations, List<OpenStop> openStops,
-             boolean simulated, boolean autoCompleteStops, int delayAdjustMin, boolean brokenDown) {
+             int delayAdjustMin, boolean brokenDown) {
         this.tripId = tripId;
         this.tripCode = tripCode;
         this.vehicleId = vehicleId;
@@ -88,8 +86,6 @@ public final class LiveTrip {
         this.routeVersionNo = routeVersionNo;
         this.route = route;
         this.openStops = new ArrayList<>(openStops);
-        this.simulated = simulated;
-        this.autoCompleteStops = autoCompleteStops;
         this.delayAdjustMin = delayAdjustMin;
         this.brokenDown = brokenDown;
         // OSRM leg distances and the decoded geometry length differ slightly; scale legs onto the geometry.
@@ -125,19 +121,6 @@ public final class LiveTrip {
             start = end;
         }
         return seconds;
-    }
-
-    /** Planned speed (m/s) at a distance along the route; used by the simulator. */
-    public double plannedSpeedAt(double distance) {
-        double start = 0;
-        for (int i = 0; i < legEnd.length; i++) {
-            if (distance <= legEnd[i] || i == legEnd.length - 1) {
-                double len = legEnd[i] - start;
-                return legSeconds[i] > 0 ? Math.max(3, len / legSeconds[i]) : 11;
-            }
-            start = legEnd[i];
-        }
-        return 11;
     }
 
     // ------------------------------------------------------------------ updates (call while holding the lock)

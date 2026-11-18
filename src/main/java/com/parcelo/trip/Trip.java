@@ -1,4 +1,4 @@
-package com.Parcelo.trip;
+package com.parcelo.trip;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,10 +21,10 @@ import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
-import com.Parcelo.common.web.BusinessRuleException;
-import com.Parcelo.fleet.Driver;
-import com.Parcelo.fleet.Vehicle;
-import com.Parcelo.fleet.Warehouse;
+import com.parcelo.common.web.BusinessRuleException;
+import com.parcelo.fleet.Driver;
+import com.parcelo.fleet.Vehicle;
+import com.parcelo.fleet.Warehouse;
 
 /**
  * One execution of a delivery route. The trip owns the current vehicle and driver assignment;
@@ -74,9 +74,6 @@ public class Trip {
 
     @Column(name = "delay_adjust_min")
     private int delayAdjustMin;
-
-    @Column(name = "auto_complete_stops")
-    private boolean autoCompleteStops = true;
 
     @Column(name = "risk_score")
     private int riskScore;
@@ -237,14 +234,6 @@ public class Trip {
 
     public int getDelayAdjustMin() {
         return delayAdjustMin;
-    }
-
-    public boolean isAutoCompleteStops() {
-        return autoCompleteStops;
-    }
-
-    public void setAutoCompleteStops(boolean autoCompleteStops) {
-        this.autoCompleteStops = autoCompleteStops;
     }
 
     public int getRiskScore() {

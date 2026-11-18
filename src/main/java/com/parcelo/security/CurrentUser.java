@@ -1,4 +1,4 @@
-package com.Parcelo.security;
+package com.parcelo.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

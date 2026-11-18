@@ -1,4 +1,4 @@
-package com.Parcelo.shipment;
+package com.parcelo.shipment;
 
 import java.time.Instant;
 import java.util.List;
@@ -6,13 +6,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.Parcelo.audit.AuditService;
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.common.web.BusinessRuleException;
-import com.Parcelo.common.web.NotFoundException;
-import com.Parcelo.fleet.FleetService;
-import com.Parcelo.fleet.Warehouse;
-import com.Parcelo.history.StatusHistoryService;
+import com.parcelo.audit.AuditService;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.common.web.BusinessRuleException;
+import com.parcelo.common.web.NotFoundException;
+import com.parcelo.fleet.FleetService;
+import com.parcelo.fleet.Warehouse;
+import com.parcelo.history.StatusHistoryService;
 
 @Service
 public class ShipmentService {
@@ -107,7 +107,7 @@ public class ShipmentService {
             s.changeDeadline(promised);
             String time = promised.atZone(zone).toLocalTime().toString();
             audit.record("SHIPMENT_NEW_TIME", "SHIPMENT", s.getId(), s.getTrackingNo() + " customer given a new time: " + time,
-                com.Parcelo.audit.AuditFields.of("deadline", before), com.Parcelo.audit.AuditFields.of("deadline", promised));
+                com.parcelo.audit.AuditFields.of("deadline", before), com.parcelo.audit.AuditFields.of("deadline", promised));
             changed.add(s.getTrackingNo() + " now due " + time);
         }
         return changed;

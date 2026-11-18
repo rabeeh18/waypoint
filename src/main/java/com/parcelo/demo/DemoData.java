@@ -1,4 +1,4 @@
-package com.Parcelo.demo;
+package com.parcelo.demo;
 
 import java.util.List;
 

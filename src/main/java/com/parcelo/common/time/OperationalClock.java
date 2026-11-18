@@ -1,4 +1,4 @@
-package com.Parcelo.common.time;
+package com.parcelo.common.time;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 /**
  * The single source of "now" for every operational decision: ETAs, deadlines, timestamps.
  * <p>
- * In simulation it runs faster than wall-clock time. Simulated time is anchored at a point
- * (simulated instant + real nanoTime) and advances by {@code speed} simulated seconds per real
+ * The demo can start it at an earlier time. The time is anchored at a point
+ * (saved instant + real nanoTime) and advances by {@code speed} seconds per real
  * second. Changing speed or pausing re-anchors so time never jumps backwards.
  */
 @Component
@@ -56,7 +56,7 @@ public class OperationalClock {
         this.paused = false;
     }
 
-    /** Restores a previously saved simulated time; never moves the clock behind real time. */
+    /** Restores a previously saved time; never moves the clock behind real time. */
     public synchronized void restore(Instant savedSimNow, double savedSpeed, boolean savedPaused) {
         Instant realNow = Instant.now();
         this.anchorSim = savedSimNow != null && savedSimNow.isAfter(realNow) ? savedSimNow : realNow;
@@ -65,7 +65,7 @@ public class OperationalClock {
         this.paused = savedPaused;
     }
 
-    /** Jumps simulated time forward, e.g. to skip a quiet night in a demo. */
+    /** Jumps the time forward, e.g. to skip a quiet night in a demo. */
     public synchronized void advance(Duration by) {
         rebase();
         this.anchorSim = anchorSim.plus(by);

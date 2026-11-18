@@ -1,4 +1,4 @@
-package com.Parcelo.web;
+package com.parcelo.web;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -10,8 +10,7 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.Parcelo.common.geo.GridReference;
-import com.Parcelo.common.time.OperationalClock;
+import com.parcelo.common.time.OperationalClock;
 
 /** Display formatting for templates, in the operation's time zone: {@code ${@fmt.time(trip.plannedStart)}}. */
 @Component("fmt")
@@ -117,10 +116,6 @@ public class Fmt {
 
     public String km(Number meters) {
         return meters == null ? "—" : String.format(Locale.ENGLISH, "%.1f km", meters.doubleValue() / 1000);
-    }
-
-    public String grid(Double lat, Double lng) {
-        return lat == null || lng == null ? "—" : GridReference.of(lat, lng);
     }
 
     public String pct(double v) {

@@ -1,4 +1,4 @@
-package com.Parcelo.security;
+package com.parcelo.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,11 +56,10 @@ public class SecurityConfig {
             .orElseThrow(() -> new UsernameNotFoundException(email));
     }
 
-    /** Invited accounts stay disabled until the person has chosen a password. */
     public static UserDetails toUserDetails(UserAccount u) {
         return User.withUsername(u.getUsername())
             .password(u.getPasswordHash())
-            .disabled(!u.isEnabled() || u.isInvitePending())
+            .disabled(!u.isEnabled())
             .authorities(u.getRoles().stream().map(Role::authority).toArray(String[]::new))
             .build();
     }

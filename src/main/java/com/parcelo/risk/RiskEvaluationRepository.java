@@ -1,4 +1,4 @@
-package com.Parcelo.risk;
+package com.parcelo.risk;
 
 import java.util.List;
 

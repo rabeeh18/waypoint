@@ -1,4 +1,4 @@
-package com.Parcelo.trip;
+package com.parcelo.trip;
 
 import java.util.List;
 

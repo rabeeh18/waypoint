@@ -1,4 +1,4 @@
-package com.Parcelo.web;
+package com.parcelo.web;
 
 import java.util.Set;
 
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.Parcelo.common.web.NotFoundException;
-import com.Parcelo.config.AppMode;
-import com.Parcelo.security.Role;
-import com.Parcelo.security.SecurityConfig;
-import com.Parcelo.security.UserAccountRepository;
+import com.parcelo.common.web.NotFoundException;
+import com.parcelo.config.AppMode;
+import com.parcelo.security.Role;
+import com.parcelo.security.SecurityConfig;
+import com.parcelo.security.UserAccountRepository;
 
 @Controller
 public class HomeController {

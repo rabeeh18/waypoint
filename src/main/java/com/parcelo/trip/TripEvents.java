@@ -1,4 +1,4 @@
-package com.Parcelo.trip;
+package com.parcelo.trip;
 
 /**
  * Domain events published by {@link TripService}. Listeners in tracking, risk and incidents

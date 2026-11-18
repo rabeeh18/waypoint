@@ -1,4 +1,4 @@
-package com.Parcelo.routing;
+package com.parcelo.routing;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -14,15 +14,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.Parcelo.common.geo.GeoPoint;
-import com.Parcelo.common.geo.Polyline;
+import com.parcelo.common.geo.GeoPoint;
+import com.parcelo.common.geo.Polyline;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
 /**
  * Road routing through the public OSRM server. Each route plan is fetched once and stored with
- * the trip, so the simulator and ETA engine never call out. Requests are throttled to one per
+ * the trip, so the ETA engine never calls out. Requests are throttled to one per
  * second (the public server's usage policy) and cached in memory; when OSRM cannot be reached,
  * a straight-line route at a configured average speed is returned and marked as estimated.
  */

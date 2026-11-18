@@ -1,4 +1,4 @@
-package com.Parcelo.demo;
+package com.parcelo.demo;
 
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -27,30 +27,30 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.Parcelo.common.geo.GeoPoint;
-import com.Parcelo.common.geo.RouteLine;
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.fleet.Driver;
-import com.Parcelo.fleet.DriverRepository;
-import com.Parcelo.fleet.Vehicle;
-import com.Parcelo.fleet.VehicleRepository;
-import com.Parcelo.fleet.Warehouse;
-import com.Parcelo.fleet.WarehouseRepository;
-import com.Parcelo.security.Role;
-import com.Parcelo.security.UserAccount;
-import com.Parcelo.security.UserAccountRepository;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.shipment.ShipmentRepository;
-import com.Parcelo.shipment.ShipmentStatus;
-import com.Parcelo.simulation.ClockKeeper;
-import com.Parcelo.trip.RouteVersion;
-import com.Parcelo.trip.RouteVersionRepository;
-import com.Parcelo.trip.StopStatus;
-import com.Parcelo.trip.Trip;
-import com.Parcelo.trip.TripRepository;
-import com.Parcelo.trip.TripService;
-import com.Parcelo.trip.TripStatus;
-import com.Parcelo.trip.TripStop;
+import com.parcelo.common.geo.GeoPoint;
+import com.parcelo.common.geo.RouteLine;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.fleet.Driver;
+import com.parcelo.fleet.DriverRepository;
+import com.parcelo.fleet.Vehicle;
+import com.parcelo.fleet.VehicleRepository;
+import com.parcelo.fleet.Warehouse;
+import com.parcelo.fleet.WarehouseRepository;
+import com.parcelo.security.Role;
+import com.parcelo.security.UserAccount;
+import com.parcelo.security.UserAccountRepository;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.shipment.ShipmentRepository;
+import com.parcelo.shipment.ShipmentStatus;
+import com.parcelo.common.time.ClockKeeper;
+import com.parcelo.trip.RouteVersion;
+import com.parcelo.trip.RouteVersionRepository;
+import com.parcelo.trip.StopStatus;
+import com.parcelo.trip.Trip;
+import com.parcelo.trip.TripRepository;
+import com.parcelo.trip.TripService;
+import com.parcelo.trip.TripStatus;
+import com.parcelo.trip.TripStop;
 
 /**
  * Seeds the demo on first start: India warehouses, fleet, drivers and users; eight weeks of
@@ -142,9 +142,9 @@ public class DemoSeeder {
     private Map<String, Warehouse> seedReference() {
         String password = demoPassword == null || demoPassword.isBlank() ? generatedPassword() : demoPassword;
         String hash = encoder.encode(password);
-        users.save(new UserAccount("dispatcher", "dispatcher@Parcelo.example", hash, "Neha Kapoor", EnumSet.of(Role.DISPATCHER)));
-        users.save(new UserAccount("dispatcher2", "dispatcher2@Parcelo.example", hash, "Vikram Sinha", EnumSet.of(Role.DISPATCHER)));
-        UserAccount driverUser = users.save(new UserAccount(DEMO_DRIVER_USERNAME, DEMO_DRIVER_USERNAME + "@Parcelo.example", hash, "Ramesh Kumar", EnumSet.of(Role.DRIVER)));
+        users.save(new UserAccount("dispatcher", "dispatcher@parcelo.example", hash, "Neha Kapoor", EnumSet.of(Role.DISPATCHER)));
+        users.save(new UserAccount("dispatcher2", "dispatcher2@parcelo.example", hash, "Vikram Sinha", EnumSet.of(Role.DISPATCHER)));
+        UserAccount driverUser = users.save(new UserAccount(DEMO_DRIVER_USERNAME, DEMO_DRIVER_USERNAME + "@parcelo.example", hash, "Ramesh Kumar", EnumSet.of(Role.DRIVER)));
 
         Map<String, Warehouse> byCode = new HashMap<>();
         for (DemoData.WarehouseSeed w : DemoData.WAREHOUSES) {
@@ -211,21 +211,21 @@ public class DemoSeeder {
     }
 
     private record LivePlan(String warehouse, List<String> towns, int stopsPerTown, int startedMinutesAgo,
-                            int stopsDone, int slackMin, String driverName, boolean autoComplete) {
+                            int stopsDone, int slackMin, String driverName) {
     }
 
     private void seedLiveTrips(Map<String, Warehouse> byCode) {
         List<LivePlan> plans = List.of(
-            new LivePlan("DEL", List.of("Ghaziabad", "Faridabad"), 2, 38, 1, 9, "Arjun Reddy", true),
-            new LivePlan("BOM", List.of("Thane", "Mira Road"), 2, 22, 0, 50, "Priya Nair", true),
-            new LivePlan("BLR", List.of("Devanahalli", "Anekal", "Tumakuru"), 1, 12, 0, 45, "Suresh Naidu", true),
-            new LivePlan("HYD", List.of("Secunderabad", "Bhongir"), 2, 34, 1, 40, "Kiran Rao", true),
-            new LivePlan("MAA", List.of("Tiruvallur", "Sriperumbudur"), 2, 6, 0, 55, "Sanjay Patil", true),
-            new LivePlan("CCU", List.of("Howrah", "Baruipur", "Barrackpore"), 1, 31, 1, 35, "Anil Deshmukh", true),
-            new LivePlan("DEL", List.of("Noida", "Gurugram"), 2, 16, 0, 30, "Vijay Iyer", true),
-            new LivePlan("BOM", List.of("Navi Mumbai", "Ulhasnagar"), 2, -15, 0, 60, "Meena Pillai", true),
-            new LivePlan("BLR", List.of("Hoskote", "Nelamangala"), 2, -40, 0, 70, "Farhan Sheikh", true),
-            new LivePlan("DEL", List.of("Sonipat", "Rohtak"), 2, -8, 0, 60, "Ramesh Kumar", false));
+            new LivePlan("DEL", List.of("Ghaziabad", "Faridabad"), 2, 38, 1, 9, "Arjun Reddy"),
+            new LivePlan("BOM", List.of("Thane", "Mira Road"), 2, 22, 0, 50, "Priya Nair"),
+            new LivePlan("BLR", List.of("Devanahalli", "Anekal", "Tumakuru"), 1, 12, 0, 45, "Suresh Naidu"),
+            new LivePlan("HYD", List.of("Secunderabad", "Bhongir"), 2, 34, 1, 40, "Kiran Rao"),
+            new LivePlan("MAA", List.of("Tiruvallur", "Sriperumbudur"), 2, 6, 0, 55, "Sanjay Patil"),
+            new LivePlan("CCU", List.of("Howrah", "Baruipur", "Barrackpore"), 1, 31, 1, 35, "Anil Deshmukh"),
+            new LivePlan("DEL", List.of("Noida", "Gurugram"), 2, 16, 0, 30, "Vijay Iyer"),
+            new LivePlan("BOM", List.of("Navi Mumbai", "Ulhasnagar"), 2, -15, 0, 60, "Meena Pillai"),
+            new LivePlan("BLR", List.of("Hoskote", "Nelamangala"), 2, -40, 0, 70, "Farhan Sheikh"),
+            new LivePlan("DEL", List.of("Sonipat", "Rohtak"), 2, -8, 0, 60, "Ramesh Kumar"));
 
         Instant now = clock.now();
         Set<Long> usedVehicles = new java.util.HashSet<>();
@@ -256,7 +256,7 @@ public class DemoSeeder {
             }
             Instant plannedStart = now.minus(Duration.ofMinutes(p.startedMinutesAgo()));
             Trip trip = tripService.plan(new TripService.PlanRequest(w.getId(), ids, vehicle.getId(), driver.getId(),
-                plannedStart, p.autoComplete()));
+                plannedStart));
             // Promised times: planned arrival plus a slack; the first trip is deliberately tight.
             for (Shipment sh : shipments.findByTripIdOrderByIdAsc(trip.getId())) {
                 Instant arrival = sh.getStop().getPlannedArrival();

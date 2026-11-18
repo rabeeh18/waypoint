@@ -1,4 +1,4 @@
-package com.Parcelo.web;
+package com.parcelo.web;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -9,7 +9,7 @@ import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.Parcelo.risk.MonitoringService;
+import com.parcelo.risk.MonitoringService;
 
 /** Dashboard headline numbers, all computed from the database (and live risk for "at risk"). */
 @Service

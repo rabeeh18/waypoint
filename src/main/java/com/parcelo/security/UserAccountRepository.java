@@ -1,4 +1,4 @@
-package com.Parcelo.security;
+package com.parcelo.security;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Long> 
 
     /** Accounts holding the role that can actually sign in: enabled and with a password set. */
     @Query("select count(distinct u) from UserAccount u join u.roles r where r = :role"
-        + " and u.enabled = true and u.passwordSetAt is not null")
+        + " and u.enabled = true")
     long countActiveWithRole(Role role);
 
     List<UserAccount> findAllByOrderByFullNameAsc();

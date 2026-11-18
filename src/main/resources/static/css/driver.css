@@ -5,7 +5,7 @@
   display: flex; justify-content: space-between; align-items: center;
   padding: 10px 16px; background: var(--ink); color: var(--paper);
 }
-.drv-top .sheet-title { font-size: 13px; display: block; }
+.drv-top .brand-name { font-size: 13px; display: block; }
 .drv-who { font-size: 13px; opacity: .8; }
 .drv-link { background: none; border: 0; color: inherit; font: 600 14px var(--font); text-decoration: underline; padding: 8px 0; cursor: pointer; }
 .drv-top .drv-link { color: var(--paper); }
@@ -27,7 +27,7 @@
 .drv-times span:last-child { font-size: 12px; color: var(--ink-3); }
 .drv-parcels { list-style: none; margin: 0 0 12px; padding: 0; }
 .drv-parcels li { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; padding: 6px 0; border-bottom: 1px dotted var(--rule-soft); font-size: 14px; }
-.drv-parcels .drv-link { margin-left: auto; color: var(--survey-blue); }
+.drv-parcels .drv-link { margin-left: auto; color: var(--accent); }
 .drv-note { background: var(--ochre-tint); padding: 8px 10px; font-size: 14px; }
 .drv-proof { margin-top: 12px; }
 .drv-proof input, .drv-fail select, .drv-card input { min-height: 48px; font-size: 16px; margin-bottom: 10px; }

@@ -1,4 +1,4 @@
-package com.Parcelo.common.geo;
+package com.parcelo.common.geo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
@@ -62,10 +62,4 @@ class GeometryTest {
         assertThat(p.distanceAlong()).isGreaterThan(line.length() / 2);
     }
 
-    @Test
-    void gridReferencesFollowTheSheetGrid() {
-        assertThat(GridReference.of(GridReference.NORTH - 0.01, GridReference.WEST + 0.01)).isEqualTo("A1");
-        assertThat(GridReference.of(MOGA)).isEqualTo("F7");
-        assertThat(GridReference.of(10, 10)).isEqualTo("—");
-    }
 }

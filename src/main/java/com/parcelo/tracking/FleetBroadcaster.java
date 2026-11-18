@@ -1,4 +1,4 @@
-package com.Parcelo.tracking;
+package com.parcelo.tracking;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -9,8 +9,8 @@ import java.util.Map;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.settings.SettingsService;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.settings.SettingsService;
 
 /** Pushes live state to dispatcher screens over STOMP. Payloads are small, flat maps. */
 @Component
@@ -34,7 +34,7 @@ public class FleetBroadcaster {
         this.settings = settings;
     }
 
-    /** One frame with the simulation clock and every known vehicle position. */
+    /** One frame with the clock and every known vehicle position. */
     public void publishPositions() {
         messaging.convertAndSend(POSITIONS, (Object) positionsFrame());
     }

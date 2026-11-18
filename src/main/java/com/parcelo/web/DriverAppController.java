@@ -1,4 +1,4 @@
-package com.Parcelo.web;
+package com.parcelo.web;
 
 import java.util.List;
 import java.util.Map;
@@ -18,19 +18,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.Parcelo.common.geo.GeoPoint;
-import com.Parcelo.common.web.BusinessRuleException;
-import com.Parcelo.fleet.Driver;
-import com.Parcelo.fleet.DriverRepository;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.shipment.ShipmentRepository;
-import com.Parcelo.tracking.LocationIngestionService;
-import com.Parcelo.trip.Trip;
-import com.Parcelo.trip.TripRepository;
-import com.Parcelo.trip.TripService;
-import com.Parcelo.trip.TripStatus;
-import com.Parcelo.trip.TripStop;
-import com.Parcelo.trip.TripStopRepository;
+import com.parcelo.common.geo.GeoPoint;
+import com.parcelo.common.web.BusinessRuleException;
+import com.parcelo.fleet.Driver;
+import com.parcelo.fleet.DriverRepository;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.shipment.ShipmentRepository;
+import com.parcelo.tracking.LocationIngestionService;
+import com.parcelo.trip.Trip;
+import com.parcelo.trip.TripRepository;
+import com.parcelo.trip.TripService;
+import com.parcelo.trip.TripStatus;
+import com.parcelo.trip.TripStop;
+import com.parcelo.trip.TripStopRepository;
 
 /**
  * The driver's phone view. Every action checks that the trip belongs to the signed-in driver;
@@ -69,8 +69,6 @@ public class DriverAppController {
                 model.addAttribute("trip", trip);
                 model.addAttribute("byStop", byStop);
                 model.addAttribute("next", trip.nextOpenStop().orElse(null));
-                model.addAttribute("noteCount", byStop.values().stream().flatMap(List::stream)
-                    .filter(s -> s.getCustomerNote() != null && !s.getStatus().isFinal()).count());
             });
         return "driver";
     }
@@ -117,16 +115,13 @@ public class DriverAppController {
     public record LocationFix(double lat, double lng, Double speedKph) {
     }
 
-    /** Phone GPS feed for vehicles that are not simulated; same ingestion pipeline as the simulator. */
+    /** Phone GPS feed: the driver's position while a trip is in progress. */
     @PostMapping("/api/driver/location")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> location(@RequestBody LocationFix fix, Authentication auth) {
         Driver driver = driverFor(auth);
         Trip trip = trips.findFirstByDriverIdAndStatusInOrderByPlannedStartAsc(driver.getId(), List.of(TripStatus.IN_PROGRESS))
             .orElseThrow(() -> new BusinessRuleException("You have no trip in progress"));
-        if (trip.getVehicle().isSimulated()) {
-            throw new BusinessRuleException("This vehicle's position comes from the simulator; your phone location is not used");
-        }
         if (Math.abs(fix.lat()) > 90 || Math.abs(fix.lng()) > 180) {
             throw new BusinessRuleException("Invalid coordinates");
         }

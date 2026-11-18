@@ -1,4 +1,4 @@
-package com.Parcelo.tracking;
+package com.parcelo.tracking;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -14,18 +14,18 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.Parcelo.common.geo.GeoPoint;
-import com.Parcelo.common.geo.RouteLine;
-import com.Parcelo.fleet.Warehouse;
-import com.Parcelo.risk.EtaCalculator;
-import com.Parcelo.risk.RiskAssessment;
-import com.Parcelo.risk.RiskEngine;
-import com.Parcelo.settings.SettingsService;
-import com.Parcelo.settings.SettingsService.RuleSnapshot;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.trip.RiskBand;
-import com.Parcelo.trip.StopStatus;
-import com.Parcelo.trip.TripStop;
+import com.parcelo.common.geo.GeoPoint;
+import com.parcelo.common.geo.RouteLine;
+import com.parcelo.fleet.Warehouse;
+import com.parcelo.risk.EtaCalculator;
+import com.parcelo.risk.RiskAssessment;
+import com.parcelo.risk.RiskEngine;
+import com.parcelo.settings.SettingsService;
+import com.parcelo.settings.SettingsService.RuleSnapshot;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.trip.RiskBand;
+import com.parcelo.trip.StopStatus;
+import com.parcelo.trip.TripStop;
 
 class EtaAndRiskTest {
 
@@ -64,7 +64,7 @@ class EtaAndRiskTest {
             new LiveTrip.OpenStop(1, 1, "Stop B", TripStop.Kind.DELIVERY, B, half, 10, T0.plusSeconds(1800), StopStatus.PENDING, null),
             new LiveTrip.OpenStop(2, 2, "Stop C", TripStop.Kind.DELIVERY, C, line.length(), 10, T0.plusSeconds(4200), StopStatus.PENDING, null));
         LiveTrip lt = new LiveTrip(10, "TR-1", 7, "DL 01 GX 4471", "Driver", 1, line, List.of(30_000, 30_000),
-            List.of(1800, 1800), stops, true, true, 0, false);
+            List.of(1800, 1800), stops, 0, false);
         lt.seedPosition(A, 0, T0);
         return lt;
     }

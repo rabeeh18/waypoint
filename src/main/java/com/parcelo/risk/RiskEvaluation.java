@@ -1,4 +1,4 @@
-package com.Parcelo.risk;
+package com.parcelo.risk;
 
 import java.time.Instant;
 
@@ -11,7 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import com.Parcelo.trip.RiskBand;
+import com.parcelo.trip.RiskBand;
 
 /** A stored point in a trip's risk history; written when the score moves materially. */
 @Entity

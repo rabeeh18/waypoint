@@ -1,4 +1,4 @@
-package com.Parcelo;
+package com.parcelo;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -12,19 +12,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.fleet.Driver;
-import com.Parcelo.fleet.DriverRepository;
-import com.Parcelo.fleet.Vehicle;
-import com.Parcelo.fleet.VehicleRepository;
-import com.Parcelo.fleet.Warehouse;
-import com.Parcelo.fleet.WarehouseRepository;
-import com.Parcelo.security.Role;
-import com.Parcelo.security.UserAccount;
-import com.Parcelo.security.UserAccountRepository;
-import com.Parcelo.settings.SettingsService;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.shipment.ShipmentRepository;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.fleet.Driver;
+import com.parcelo.fleet.DriverRepository;
+import com.parcelo.fleet.Vehicle;
+import com.parcelo.fleet.VehicleRepository;
+import com.parcelo.fleet.Warehouse;
+import com.parcelo.fleet.WarehouseRepository;
+import com.parcelo.security.Role;
+import com.parcelo.security.UserAccount;
+import com.parcelo.security.UserAccountRepository;
+import com.parcelo.settings.SettingsService;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.shipment.ShipmentRepository;
 
 /**
  * Base for tests that run against the real PostgreSQL schema in the fleet_test database.

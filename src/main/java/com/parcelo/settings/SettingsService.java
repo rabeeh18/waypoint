@@ -1,4 +1,4 @@
-package com.Parcelo.settings;
+package com.parcelo.settings;
 
 import java.time.Instant;
 import java.util.List;
@@ -8,12 +8,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.Parcelo.audit.AuditFields;
-import com.Parcelo.audit.AuditService;
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.common.web.BusinessRuleException;
-import com.Parcelo.common.web.NotFoundException;
-import com.Parcelo.security.CurrentUser;
+import com.parcelo.audit.AuditFields;
+import com.parcelo.audit.AuditService;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.common.web.BusinessRuleException;
+import com.parcelo.common.web.NotFoundException;
+import com.parcelo.security.CurrentUser;
 
 /**
  * Typed access to system settings and risk rules. Values are cached in memory because the
@@ -109,7 +109,7 @@ public class SettingsService {
             AuditFields.of("value", old), AuditFields.of("value", value));
     }
 
-    /** System-internal writes (e.g. saving the simulation clock) that are not audited. */
+    /** System-internal writes (e.g. saving the demo clock) that are not audited. */
     @Transactional
     public void writeInternal(String key, String value) {
         settings.findById(key).ifPresent(s -> s.update(value, CurrentUser.SYSTEM, Instant.now()));

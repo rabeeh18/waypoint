@@ -1,4 +1,4 @@
-package com.Parcelo.fleet;
+package com.parcelo.fleet;
 
 import java.time.Instant;
 
@@ -14,7 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import com.Parcelo.common.geo.GeoPoint;
+import com.parcelo.common.geo.GeoPoint;
 
 @Entity
 @Table(name = "vehicles")
@@ -50,7 +50,6 @@ public class Vehicle {
     @Column(name = "last_seen_at")
     private Instant lastSeenAt;
 
-    private boolean simulated = true;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
@@ -107,10 +106,6 @@ public class Vehicle {
         return lastSeenAt;
     }
 
-    public boolean isSimulated() {
-        return simulated;
-    }
-
     public GeoPoint lastPosition() {
         return lastLat == null ? homeWarehouse.location() : new GeoPoint(lastLat, lastLng);
     }
@@ -121,10 +116,9 @@ public class Vehicle {
         this.lastSeenAt = at;
     }
 
-    public void update(String type, int capacityKg, Warehouse homeWarehouse, boolean simulated) {
+    public void update(String type, int capacityKg, Warehouse homeWarehouse) {
         this.type = type;
         this.capacityKg = capacityKg;
         this.homeWarehouse = homeWarehouse;
-        this.simulated = simulated;
     }
 }

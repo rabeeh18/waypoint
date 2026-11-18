@@ -1,4 +1,4 @@
-package com.Parcelo.fleet;
+package com.parcelo.fleet;
 
 public enum DriverStatus {
     AVAILABLE("Available"),

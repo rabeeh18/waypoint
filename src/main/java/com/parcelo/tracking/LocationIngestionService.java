@@ -1,4 +1,4 @@
-package com.Parcelo.tracking;
+package com.parcelo.tracking;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -9,15 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.Parcelo.common.geo.GeoPoint;
-import com.Parcelo.common.geo.RouteLine;
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.settings.SettingsService;
-import com.Parcelo.trip.StopStatus;
-import com.Parcelo.trip.TripService;
+import com.parcelo.common.geo.GeoPoint;
+import com.parcelo.common.geo.RouteLine;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.settings.SettingsService;
+import com.parcelo.trip.StopStatus;
+import com.parcelo.trip.TripService;
 
 /**
- * The one pipeline every location fix goes through, whether it comes from the simulator,
+ * The one pipeline every location fix goes through, whether it comes from
  * a driver's phone or a GPS device: update the live picture, detect stop arrival by
  * geofence, store throttled history, and queue the fix for broadcast.
  */

@@ -1,4 +1,4 @@
-package com.Parcelo.demo;
+package com.parcelo.demo;
 
 import java.sql.Timestamp;
 import java.time.DayOfWeek;
@@ -22,7 +22,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.Parcelo.common.geo.GeoPoint;
+import com.parcelo.common.geo.GeoPoint;
 
 /**
  * Writes weeks of completed operations straight through JDBC, so analytics and historical

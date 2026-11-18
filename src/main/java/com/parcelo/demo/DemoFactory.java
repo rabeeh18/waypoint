@@ -1,4 +1,4 @@
-package com.Parcelo.demo;
+package com.parcelo.demo;
 
 import java.time.Instant;
 import java.util.List;
@@ -7,10 +7,10 @@ import java.util.Random;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.Parcelo.fleet.Warehouse;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.shipment.ShipmentRepository;
-import com.Parcelo.shipment.ShipmentService;
+import com.parcelo.fleet.Warehouse;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.shipment.ShipmentRepository;
+import com.parcelo.shipment.ShipmentService;
 
 /** Creates synthetic shipments for the demo: invented businesses on real India town streets. */
 @Component

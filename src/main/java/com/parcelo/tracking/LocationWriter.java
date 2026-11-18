@@ -1,4 +1,4 @@
-package com.Parcelo.tracking;
+package com.parcelo.tracking;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -11,9 +11,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.fleet.VehicleRepository;
-import com.Parcelo.settings.SettingsService;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.fleet.VehicleRepository;
+import com.parcelo.settings.SettingsService;
 
 /**
  * Batches database writes for tracking: location history rows and each vehicle's last known

@@ -1,4 +1,4 @@
-package com.Parcelo.fleet;
+package com.parcelo.fleet;
 
 import java.time.Duration;
 import java.time.Instant;

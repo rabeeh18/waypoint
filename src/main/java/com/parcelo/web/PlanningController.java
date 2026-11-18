@@ -1,4 +1,4 @@
-package com.Parcelo.web;
+package com.parcelo.web;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.common.web.BusinessRuleException;
-import com.Parcelo.fleet.Driver;
-import com.Parcelo.fleet.DriverRepository;
-import com.Parcelo.fleet.DriverStatus;
-import com.Parcelo.fleet.Vehicle;
-import com.Parcelo.fleet.VehicleRepository;
-import com.Parcelo.fleet.VehicleStatus;
-import com.Parcelo.fleet.Warehouse;
-import com.Parcelo.fleet.WarehouseRepository;
-import com.Parcelo.shipment.ShipmentRepository;
-import com.Parcelo.shipment.ShipmentStatus;
-import com.Parcelo.trip.Trip;
-import com.Parcelo.trip.TripService;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.common.web.BusinessRuleException;
+import com.parcelo.fleet.Driver;
+import com.parcelo.fleet.DriverRepository;
+import com.parcelo.fleet.DriverStatus;
+import com.parcelo.fleet.Vehicle;
+import com.parcelo.fleet.VehicleRepository;
+import com.parcelo.fleet.VehicleStatus;
+import com.parcelo.fleet.Warehouse;
+import com.parcelo.fleet.WarehouseRepository;
+import com.parcelo.shipment.ShipmentRepository;
+import com.parcelo.shipment.ShipmentStatus;
+import com.parcelo.trip.Trip;
+import com.parcelo.trip.TripService;
 
 /** Builds a trip from shipments waiting at a warehouse. */
 @Controller
@@ -77,13 +77,12 @@ public class PlanningController {
     @PostMapping("/planning")
     public String plan(@RequestParam long warehouseId, @RequestParam(name = "shipment", required = false) List<Long> shipmentIds,
                        @RequestParam long vehicleId, @RequestParam long driverId, @RequestParam String plannedStart,
-                       @RequestParam(defaultValue = "false") boolean autoComplete,
                        @RequestParam(defaultValue = "false") boolean startNow, RedirectAttributes ra) {
         if (shipmentIds == null || shipmentIds.isEmpty()) {
             throw new BusinessRuleException("Tick at least one shipment to put on the trip");
         }
         Instant start = startNow ? clock.now() : LocalDateTime.parse(plannedStart).atZone(fmt.zone()).toInstant();
-        Trip trip = trips.plan(new TripService.PlanRequest(warehouseId, shipmentIds, vehicleId, driverId, start, autoComplete));
+        Trip trip = trips.plan(new TripService.PlanRequest(warehouseId, shipmentIds, vehicleId, driverId, start));
         if (startNow) {
             trips.start(trip.getId());
         }

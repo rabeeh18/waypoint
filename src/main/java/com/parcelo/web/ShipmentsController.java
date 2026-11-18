@@ -1,4 +1,4 @@
-package com.Parcelo.web;
+package com.parcelo.web;
 
 import java.time.LocalDateTime;
 
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.fleet.WarehouseRepository;
-import com.Parcelo.history.StatusHistoryService;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.shipment.ShipmentRepository;
-import com.Parcelo.shipment.ShipmentService;
-import com.Parcelo.shipment.ShipmentStatus;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.fleet.WarehouseRepository;
+import com.parcelo.history.StatusHistoryService;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.shipment.ShipmentRepository;
+import com.parcelo.shipment.ShipmentService;
+import com.parcelo.shipment.ShipmentStatus;
 
 @Controller
 public class ShipmentsController {

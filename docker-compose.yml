@@ -1,0 +1,31 @@
+# One command to run everything: docker compose up
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: parcelo
+      POSTGRES_USER: parcelo
+      POSTGRES_PASSWORD: parcelo
+    volumes:
+      - parcelo-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U parcelo -d parcelo"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      FLEET_DB_HOST: db
+      FLEET_DB_NAME: parcelo
+      FLEET_DB_USER: parcelo
+      FLEET_DB_PASSWORD: parcelo
+    ports:
+      - "8080:8080"
+
+volumes:
+  parcelo-data:

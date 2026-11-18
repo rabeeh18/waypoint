@@ -1,4 +1,4 @@
-package com.Parcelo.trip;
+package com.parcelo.trip;
 
 public enum TripStatus {
     PLANNED("Planned"),

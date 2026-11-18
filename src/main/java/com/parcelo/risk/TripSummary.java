@@ -1,4 +1,4 @@
-package com.Parcelo.risk;
+package com.parcelo.risk;
 
 import java.time.Instant;
 import java.util.List;
@@ -9,5 +9,5 @@ public record TripSummary(
     String warehouse, String route, int stopsDone, int stopsTotal, int progress,
     String nextStop, Instant nextEta, Integer deviationMin, Integer lateMin, int shipmentsAtRisk,
     int riskScore, String riskBand, List<RiskAssessment.Contribution> reasons,
-    String condition, String grid, Double lat, Double lng, double pace, String scenario) {
+    String condition, Double lat, Double lng, double pace) {
 }

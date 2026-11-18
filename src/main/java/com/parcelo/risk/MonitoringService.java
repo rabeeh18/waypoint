@@ -1,4 +1,4 @@
-package com.Parcelo.risk;
+package com.parcelo.risk;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -15,21 +15,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.Parcelo.common.geo.GridReference;
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.common.time.StartupGate;
-import com.Parcelo.settings.SettingsService;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.shipment.ShipmentRepository;
-import com.Parcelo.shipment.ShipmentStatus;
-import com.Parcelo.tracking.FleetBroadcaster;
-import com.Parcelo.tracking.LiveFleet;
-import com.Parcelo.tracking.LiveTrip;
-import com.Parcelo.trip.RiskBand;
-import com.Parcelo.trip.Trip;
-import com.Parcelo.trip.TripRepository;
-import com.Parcelo.trip.TripStatus;
-import com.Parcelo.trip.TripStop;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.common.time.StartupGate;
+import com.parcelo.settings.SettingsService;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.shipment.ShipmentRepository;
+import com.parcelo.shipment.ShipmentStatus;
+import com.parcelo.tracking.FleetBroadcaster;
+import com.parcelo.tracking.LiveFleet;
+import com.parcelo.tracking.LiveTrip;
+import com.parcelo.trip.RiskBand;
+import com.parcelo.trip.Trip;
+import com.parcelo.trip.TripRepository;
+import com.parcelo.trip.TripStatus;
+import com.parcelo.trip.TripStop;
 
 /**
  * The continuous monitoring loop. Every few seconds, for each in-progress trip: recompute ETAs,
@@ -180,8 +179,8 @@ public class MonitoringService {
             assessment.shipmentsAtRisk() + assessment.shipmentsLate(),
             assessment.score(), assessment.band().name(),
             assessment.contributions().stream().limit(4).toList(),
-            condition, lat == null ? "—" : GridReference.of(lat, lng), lat, lng,
-            Math.round(eta.pace() * 100) / 100.0, "NORMAL");
+            condition, lat, lng,
+            Math.round(eta.pace() * 100) / 100.0);
         return new Outcome(summary, assessment, trip.getCode());
     }
 

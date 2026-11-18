@@ -70,7 +70,7 @@
                 <td class="num" th:text="${@fmt.time(s.plannedArrival)}">--</td>
                 <td class="num" th:text="${s.actualArrival != null ? @fmt.time(s.actualArrival) : @fmt.time(s.eta)}">--</td>
                 <td class="num" th:text="${list != null and !list.isEmpty() ? @fmt.time(list[0].deadline) : '—'}">--</td>
-                <td><th:block th:if="${list != null}"><th:block th:each="sh : ${list}"><a th:href="@{/shipments/{id}(id=${sh.id})}" th:text="${sh.trackingNo}" style="display:block">FL</a><span class="sub cnote" th:if="${sh.customerNote != null}" th:text="'Customer note: “' + ${sh.customerNote} + '”'">note</span></th:block></th:block>
+                <td><th:block th:if="${list != null}"><th:block th:each="sh : ${list}"><a th:href="@{/shipments/{id}(id=${sh.id})}" th:text="${sh.trackingNo}" style="display:block">FL</a></th:block></th:block>
                   <span class="muted" th:if="${s.kind.name() == 'TRANSFER'}">cargo transfer</span></td>
                 <td><span class="tag" th:classappend="${s.status.name() == 'COMPLETED'} ? 'tag-green' : (${s.status.name() == 'FAILED'} ? 'tag-red' : (${s.status.name() == 'ARRIVED'} ? 'tag-blue' : 'tag-ink'))" th:text="${s.status.label()}">st</span></td>
                 <td>

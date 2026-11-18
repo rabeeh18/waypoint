@@ -1,4 +1,4 @@
-package com.Parcelo.web;
+package com.parcelo.web;
 
 import java.util.Map;
 
@@ -6,12 +6,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.config.AppMode;
-import com.Parcelo.security.UserAccountRepository;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.config.AppMode;
+import com.parcelo.security.UserAccountRepository;
 
 /** Values every page header needs: who is signed in and the clock. */
-@ControllerAdvice(basePackages = "com.Parcelo.web")
+@ControllerAdvice(basePackages = "com.parcelo.web")
 public class GlobalModel {
 
     private static final Map<String, Object> NOBODY = Map.of("name", "", "role", "");

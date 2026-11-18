@@ -1,5 +1,5 @@
-/* Shared behaviour for signed-in pages: API calls, the simulation clock, live connection,
-   notifications and toasts. Exposes window.Fleet. */
+/* Shared behaviour for signed-in pages: API calls, live connection,
+   toasts and the live connection. Exposes window.Fleet. */
 (function () {
   'use strict';
 
@@ -41,54 +41,6 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const icon = (name, cls) => `<svg class="icon ${cls || ''}" aria-hidden="true"><use href="/img/icons.svg#i-${name}"></use></svg>`;
   /** A trip's light: On track, Watch or Needs action; the risk points are in the tooltip. */
-  const LIGHT = { LOW: 'On track', MEDIUM: 'Watch', HIGH: 'Needs action', CRITICAL: 'Needs action' };
-  const spot = (score, band) => `<span class="light band-${band}" title="Risk points ${score}">${LIGHT[band] || 'On track'}</span>`;
-
-  // ------------------------------------------------------------------ simulation clock
-
-  const clockEl = document.querySelector('[data-simclock]');
-  const clock = {
-    base: Date.now(), baseSim: Date.now(), speed: 1, paused: false,
-    now() { return this.paused ? this.baseSim : this.baseSim + (Date.now() - this.base) * this.speed; },
-    sync(simMs, speed, paused) {
-      this.baseSim = simMs; this.base = Date.now();
-      if (speed !== undefined) this.speed = speed;
-      if (paused !== undefined) this.paused = paused;
-      renderClockControls();
-    }
-  };
-  function renderClockControls() {
-    if (!clockEl) return;
-    const sel = clockEl.querySelector('[data-clock-speed]');
-    if (sel && document.activeElement !== sel) sel.value = String(Math.round(clock.speed));
-    clockEl.toggleAttribute('data-paused', clock.paused);
-    const toggle = clockEl.querySelector('[data-clock-toggle]');
-    if (!toggle) return; // production: real time, no controls
-    clockEl.querySelector('[data-icon-pause]').hidden = clock.paused;
-    clockEl.querySelector('[data-icon-play]').hidden = !clock.paused;
-    toggle.setAttribute('aria-label', clock.paused ? 'Resume simulation' : 'Pause simulation');
-  }
-  if (clockEl) {
-    clock.sync(Number(clockEl.dataset.now), Number(clockEl.dataset.speed), clockEl.hasAttribute('data-paused'));
-    const timeEl = clockEl.querySelector('[data-clock-time]');
-    const dateEl = clockEl.querySelector('[data-clock-date]');
-    const tick = () => {
-      const n = clock.now();
-      timeEl.textContent = timeFmt.format(n);
-      dateEl.textContent = dateFmt.format(n);
-    };
-    tick();
-    setInterval(tick, 500);
-    clockEl.querySelector('[data-clock-speed]')?.addEventListener('change', async e => {
-      const r = await api('POST', '/api/sim/speed', { speed: Number(e.target.value) });
-      clock.sync(r.now, r.speed, r.paused);
-    });
-    clockEl.querySelector('[data-clock-toggle]')?.addEventListener('click', async () => {
-      const r = await api('POST', clock.paused ? '/api/sim/resume' : '/api/sim/pause');
-      clock.sync(r.now, r.speed, r.paused);
-    });
-  }
-
   // ------------------------------------------------------------------ toasts
 
   const toastStack = document.querySelector('[data-toasts]');
@@ -102,46 +54,6 @@
     toastStack.appendChild(el);
     setTimeout(() => el.remove(), 8000);
     while (toastStack.children.length > 4) toastStack.firstChild.remove();
-  }
-
-  // ------------------------------------------------------------------ notifications
-
-  const notesBtn = document.querySelector('[data-notes-toggle]');
-  const notesPanel = document.querySelector('[data-notes-panel]');
-  const notesCount = document.querySelector('[data-notes-count]');
-  async function refreshNoteCount() {
-    if (!notesCount) return;
-    try {
-      const r = await api('GET', '/api/notifications/unread');
-      notesCount.textContent = r.count > 0 ? (r.count > 99 ? '99+' : r.count) : '';
-    } catch (e) { /* ignore */ }
-  }
-  async function openNotes() {
-    const list = notesPanel.querySelector('[data-notes-list]');
-    const items = await api('GET', '/api/notifications');
-    list.innerHTML = items.length === 0
-      ? '<div class="empty"><strong>Nothing new</strong>Alerts for high-risk trips and incidents appear here.</div>'
-      : items.map(n => `<a class="note-item" href="${esc(n.link || '#')}" ${n.read ? '' : 'data-unread'}>
-          <div class="t">${esc(n.title)}</div><div class="b">${esc(n.body || '')} · ${esc(n.ago)}</div></a>`).join('');
-  }
-  if (notesBtn) {
-    notesBtn.addEventListener('click', async () => {
-      const open = notesPanel.hidden;
-      notesPanel.hidden = !open;
-      notesBtn.setAttribute('aria-expanded', String(open));
-      if (open) await openNotes();
-    });
-    document.addEventListener('click', e => {
-      if (!notesPanel.hidden && !notesPanel.contains(e.target) && !notesBtn.contains(e.target)) {
-        notesPanel.hidden = true; notesBtn.setAttribute('aria-expanded', 'false');
-      }
-    });
-    notesPanel.querySelector('[data-notes-read]').addEventListener('click', async () => {
-      await api('POST', '/api/notifications/read');
-      await openNotes();
-      refreshNoteCount();
-    });
-    refreshNoteCount();
   }
 
   // ------------------------------------------------------------------ live connection
@@ -173,11 +85,6 @@
     stomp.activate();
   }
 
-  subscribe('/user/queue/notifications', n => {
-    toast(n.title, n.body, n.severity, n.link);
-    refreshNoteCount();
-  });
-  subscribe('/topic/fleet/positions', frame => clock.sync(frame.t, frame.speed, frame.paused));
 
   // Rows that link somewhere.
   document.addEventListener('click', e => {
@@ -194,7 +101,7 @@
     if (msg && !confirm(msg)) e.preventDefault();
   });
 
-  window.Fleet = { api, toMs, fmtTime, fmtDelta, esc, icon, spot, toast, subscribe, clock, csrfToken, csrfHeader };
+  window.Fleet = { api, toMs, fmtTime, fmtDelta, esc, icon, toast, subscribe, csrfToken, csrfHeader };
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', connect);
   } else {

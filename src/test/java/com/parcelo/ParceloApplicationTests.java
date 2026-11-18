@@ -1,4 +1,4 @@
-package com.Parcelo;
+package com.parcelo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

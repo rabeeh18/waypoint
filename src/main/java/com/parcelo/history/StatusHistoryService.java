@@ -1,4 +1,4 @@
-package com.Parcelo.history;
+package com.parcelo.history;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.security.CurrentUser;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.security.CurrentUser;
 
 @Service
 public class StatusHistoryService {

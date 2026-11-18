@@ -1,4 +1,4 @@
-package com.Parcelo.fleet;
+package com.parcelo.fleet;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.Parcelo.trip;
+package com.parcelo.trip;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -18,27 +18,27 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.Parcelo.audit.AuditFields;
-import com.Parcelo.audit.AuditService;
-import com.Parcelo.common.geo.GeoPoint;
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.common.web.BusinessRuleException;
-import com.Parcelo.common.web.NotFoundException;
-import com.Parcelo.fleet.Driver;
-import com.Parcelo.fleet.DriverRepository;
-import com.Parcelo.fleet.DriverStatus;
-import com.Parcelo.fleet.FleetService;
-import com.Parcelo.fleet.Vehicle;
-import com.Parcelo.fleet.VehicleRepository;
-import com.Parcelo.fleet.VehicleStatus;
-import com.Parcelo.fleet.Warehouse;
-import com.Parcelo.history.StatusHistoryService;
-import com.Parcelo.routing.RoutePlan;
-import com.Parcelo.routing.RoutingService;
-import com.Parcelo.security.CurrentUser;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.shipment.ShipmentRepository;
-import com.Parcelo.shipment.ShipmentStatus;
+import com.parcelo.audit.AuditFields;
+import com.parcelo.audit.AuditService;
+import com.parcelo.common.geo.GeoPoint;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.common.web.BusinessRuleException;
+import com.parcelo.common.web.NotFoundException;
+import com.parcelo.fleet.Driver;
+import com.parcelo.fleet.DriverRepository;
+import com.parcelo.fleet.DriverStatus;
+import com.parcelo.fleet.FleetService;
+import com.parcelo.fleet.Vehicle;
+import com.parcelo.fleet.VehicleRepository;
+import com.parcelo.fleet.VehicleStatus;
+import com.parcelo.fleet.Warehouse;
+import com.parcelo.history.StatusHistoryService;
+import com.parcelo.routing.RoutePlan;
+import com.parcelo.routing.RoutingService;
+import com.parcelo.security.CurrentUser;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.shipment.ShipmentRepository;
+import com.parcelo.shipment.ShipmentStatus;
 
 /**
  * Trip lifecycle: planning, start, stop outcomes, breakdown, reassignment, cancellation.
@@ -91,7 +91,7 @@ public class TripService {
     }
 
     public record PlanRequest(long warehouseId, Collection<Long> shipmentIds, long vehicleId, long driverId,
-                              Instant plannedStart, boolean autoCompleteStops) {
+                              Instant plannedStart) {
     }
 
     // ------------------------------------------------------------------ planning
@@ -132,7 +132,6 @@ public class TripService {
         Trip trip = new Trip("TR-" + trips.nextCodeNumber(), warehouse, vehicle, driver,
             req.plannedStart() != null ? req.plannedStart() : now, CurrentUser.username(), now);
         trip.setTotalWeightKg(weight);
-        trip.setAutoCompleteStops(req.autoCompleteStops());
 
         Map<String, List<Shipment>> byDestination = groupByDestination(selected);
         List<List<Shipment>> ordered = orderNearestFirst(warehouse.location(), byDestination.values());

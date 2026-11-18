@@ -1,4 +1,4 @@
-package com.Parcelo.web;
+package com.parcelo.web;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -17,23 +17,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.Parcelo.common.geo.GridReference;
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.config.AppMode;
-import com.Parcelo.common.web.NotFoundException;
-import com.Parcelo.fleet.Vehicle;
-import com.Parcelo.fleet.VehicleRepository;
-import com.Parcelo.fleet.Warehouse;
-import com.Parcelo.fleet.WarehouseRepository;
-import com.Parcelo.risk.MonitoringService;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.shipment.ShipmentRepository;
-import com.Parcelo.tracking.FleetBroadcaster;
-import com.Parcelo.tracking.VehicleLocationRepository;
-import com.Parcelo.trip.RouteVersionRepository;
-import com.Parcelo.trip.Trip;
-import com.Parcelo.trip.TripService;
-import com.Parcelo.trip.TripStop;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.config.AppMode;
+import com.parcelo.common.web.NotFoundException;
+import com.parcelo.fleet.Vehicle;
+import com.parcelo.fleet.VehicleRepository;
+import com.parcelo.fleet.Warehouse;
+import com.parcelo.fleet.WarehouseRepository;
+import com.parcelo.risk.MonitoringService;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.shipment.ShipmentRepository;
+import com.parcelo.tracking.FleetBroadcaster;
+import com.parcelo.tracking.VehicleLocationRepository;
+import com.parcelo.trip.RouteVersionRepository;
+import com.parcelo.trip.Trip;
+import com.parcelo.trip.TripService;
+import com.parcelo.trip.TripStop;
 
 /** The dashboard page and the JSON it loads; live changes then arrive over STOMP. */
 @Controller
@@ -122,7 +121,6 @@ public class DashboardController {
             m.put("actualDeparture", epoch(s.getActualDeparture()));
             m.put("deadline", epoch(deadline));
             m.put("shipments", list.size());
-            m.put("grid", GridReference.of(s.getLat(), s.getLng()));
             stops.add(m);
         }
         List<Map<String, Object>> routeVersions = routes.findByTripIdOrderByVersionNoAsc(id).stream().map(r -> {
@@ -160,7 +158,7 @@ public class DashboardController {
 
     static Map<String, Object> warehouseJson(Warehouse w) {
         return Map.of("id", w.getId(), "code", w.getCode(), "name", w.getName(), "city", w.getCity(),
-            "lat", w.getLat(), "lng", w.getLng(), "grid", GridReference.of(w.getLat(), w.getLng()));
+            "lat", w.getLat(), "lng", w.getLng());
     }
 
     static Map<String, Object> vehicleJson(Vehicle v) {

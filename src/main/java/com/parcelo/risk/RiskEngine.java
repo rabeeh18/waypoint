@@ -1,4 +1,4 @@
-package com.Parcelo.risk;
+package com.parcelo.risk;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -8,11 +8,11 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import com.Parcelo.settings.SettingsService;
-import com.Parcelo.settings.SettingsService.RuleSnapshot;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.tracking.LiveTrip;
-import com.Parcelo.trip.RiskBand;
+import com.parcelo.settings.SettingsService;
+import com.parcelo.settings.SettingsService.RuleSnapshot;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.tracking.LiveTrip;
+import com.parcelo.trip.RiskBand;
 
 /**
  * Transparent, rule-based problem detection. Every rule is either a heads-up (Watch) or a problem

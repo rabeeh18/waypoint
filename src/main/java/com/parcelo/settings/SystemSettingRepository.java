@@ -1,4 +1,4 @@
-package com.Parcelo.settings;
+package com.parcelo.settings;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.Parcelo.common.web;
+package com.parcelo.common.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,4 +1,4 @@
-package com.Parcelo.security;
+package com.parcelo.security;
 
 /** Application roles. Ids match the rows inserted into {@code roles} by V1. */
 public enum Role {

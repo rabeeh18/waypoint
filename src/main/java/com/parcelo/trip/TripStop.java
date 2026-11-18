@@ -1,4 +1,4 @@
-package com.Parcelo.trip;
+package com.parcelo.trip;
 
 import java.time.Instant;
 
@@ -14,8 +14,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import com.Parcelo.common.geo.GeoPoint;
-import com.Parcelo.common.web.BusinessRuleException;
+import com.parcelo.common.geo.GeoPoint;
+import com.parcelo.common.web.BusinessRuleException;
 
 @Entity
 @Table(name = "trip_stops")

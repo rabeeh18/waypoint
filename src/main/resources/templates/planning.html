@@ -38,7 +38,6 @@
               <td><input type="checkbox" name="shipment" th:value="${s.id}" th:attr="data-weight=${s.weightKg},data-lat=${s.destLat},data-lng=${s.destLng},data-name=${s.destName}" th:id="'s' + ${s.id}"></td>
               <td><label th:for="'s' + ${s.id}" style="margin:0;font-weight:700" th:text="${s.trackingNo}">FL</label><span class="sub" th:text="${s.recipientName}">r</span></td>
               <td th:text="${s.destName}">d</td>
-              <td><span class="grid-ref" th:text="${@fmt.grid(s.destLat, s.destLng)}">A1</span></td>
               <td class="r num" th:text="${s.weightKg} + ' kg'">kg</td>
               <td class="num" th:text="${@fmt.when(s.deadline)}">due</td>
             </tr>

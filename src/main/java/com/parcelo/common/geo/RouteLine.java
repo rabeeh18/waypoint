@@ -1,4 +1,4 @@
-package com.Parcelo.common.geo;
+package com.parcelo.common.geo;
 
 import java.util.List;
 

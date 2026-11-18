@@ -1,4 +1,4 @@
-package com.Parcelo.common.web;
+package com.parcelo.common.web;
 
 /**
  * A request that is well formed but not allowed in the current state, e.g. assigning a vehicle

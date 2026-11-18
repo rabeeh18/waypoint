@@ -1,9 +1,9 @@
-package com.Parcelo.risk;
+package com.parcelo.risk;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.Parcelo.trip.RiskBand;
+import com.parcelo.trip.RiskBand;
 
 /** The outcome of scoring one trip: the total, its band, and every rule that contributed. */
 public record RiskAssessment(int score, RiskBand band, List<Contribution> contributions,

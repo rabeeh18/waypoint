@@ -1,4 +1,4 @@
-package com.Parcelo.shipment;
+package com.parcelo.shipment;
 
 import java.util.EnumSet;
 import java.util.Set;

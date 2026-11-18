@@ -1,4 +1,4 @@
-package com.Parcelo.common.geo;
+package com.parcelo.common.geo;
 
 public record GeoPoint(double lat, double lng) {
 

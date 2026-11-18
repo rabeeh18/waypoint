@@ -1,4 +1,4 @@
-package com.Parcelo.trip;
+package com.parcelo.trip;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -8,15 +8,15 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.Parcelo.IntegrationTestSupport;
-import com.Parcelo.common.web.BusinessRuleException;
-import com.Parcelo.fleet.Driver;
-import com.Parcelo.fleet.DriverStatus;
-import com.Parcelo.fleet.Vehicle;
-import com.Parcelo.fleet.VehicleStatus;
-import com.Parcelo.fleet.Warehouse;
-import com.Parcelo.shipment.Shipment;
-import com.Parcelo.shipment.ShipmentStatus;
+import com.parcelo.IntegrationTestSupport;
+import com.parcelo.common.web.BusinessRuleException;
+import com.parcelo.fleet.Driver;
+import com.parcelo.fleet.DriverStatus;
+import com.parcelo.fleet.Vehicle;
+import com.parcelo.fleet.VehicleStatus;
+import com.parcelo.fleet.Warehouse;
+import com.parcelo.shipment.Shipment;
+import com.parcelo.shipment.ShipmentStatus;
 
 class TripServiceIT extends IntegrationTestSupport {
 
@@ -36,7 +36,7 @@ class TripServiceIT extends IntegrationTestSupport {
         Shipment c = shipment(w, 30.7883, 75.4732, 100); // Jagraon, nearer the warehouse
 
         Trip trip = trips.plan(new TripService.PlanRequest(w.getId(), List.of(a.getId(), b.getId(), c.getId()),
-            v.getId(), d.getId(), clock.now(), true));
+            v.getId(), d.getId(), clock.now()));
 
         Trip saved = trips.get(trip.getId());
         assertThat(stopRepository.findByTripIdOrderBySeqAsc(trip.getId())).hasSize(2);
@@ -56,7 +56,7 @@ class TripServiceIT extends IntegrationTestSupport {
         Vehicle small = vehicle(w, 300);
         Driver d = driver(w, "Priya Nair");
         Shipment big = shipment(w, 30.8, 75.2, 400);
-        assertThatThrownBy(() -> trips.plan(new TripService.PlanRequest(w.getId(), List.of(big.getId()), small.getId(), d.getId(), clock.now(), true)))
+        assertThatThrownBy(() -> trips.plan(new TripService.PlanRequest(w.getId(), List.of(big.getId()), small.getId(), d.getId(), clock.now())))
             .isInstanceOf(BusinessRuleException.class)
             .hasMessageContaining("exceeds");
         assertThat(shipments.findById(big.getId()).orElseThrow().getStatus()).isEqualTo(ShipmentStatus.CREATED);
@@ -68,9 +68,9 @@ class TripServiceIT extends IntegrationTestSupport {
         Vehicle v = vehicle(w, 2500);
         Driver d1 = driver(w, "Driver One");
         Driver d2 = driver(w, "Driver Two");
-        trips.plan(new TripService.PlanRequest(w.getId(), List.of(shipment(w, 30.8, 75.2, 100).getId()), v.getId(), d1.getId(), clock.now(), true));
+        trips.plan(new TripService.PlanRequest(w.getId(), List.of(shipment(w, 30.8, 75.2, 100).getId()), v.getId(), d1.getId(), clock.now()));
         assertThatThrownBy(() -> trips.plan(new TripService.PlanRequest(w.getId(), List.of(shipment(w, 30.7, 75.3, 100).getId()),
-                v.getId(), d2.getId(), clock.now(), true)))
+                v.getId(), d2.getId(), clock.now())))
             .isInstanceOf(BusinessRuleException.class)
             .hasMessageContaining("on trip");
     }
@@ -81,7 +81,7 @@ class TripServiceIT extends IntegrationTestSupport {
         Vehicle v = vehicle(w, 2500);
         Driver d = driver(w, "Suresh Naidu");
         Shipment s = shipment(w, 30.8, 75.2, 100);
-        Trip trip = trips.plan(new TripService.PlanRequest(w.getId(), List.of(s.getId()), v.getId(), d.getId(), clock.now(), true));
+        Trip trip = trips.plan(new TripService.PlanRequest(w.getId(), List.of(s.getId()), v.getId(), d.getId(), clock.now()));
         trips.start(trip.getId());
         long stopId = stopRepository.findByTripIdOrderBySeqAsc(trip.getId()).get(0).getId();
 
@@ -103,7 +103,7 @@ class TripServiceIT extends IntegrationTestSupport {
         Driver d2 = driver(w, "Relief Driver");
         Shipment s1 = shipment(w, 30.7883, 75.4732, 100);
         Shipment s2 = shipment(w, 30.8165, 75.1717, 100);
-        Trip trip = trips.plan(new TripService.PlanRequest(w.getId(), List.of(s1.getId(), s2.getId()), broken.getId(), d1.getId(), clock.now(), true));
+        Trip trip = trips.plan(new TripService.PlanRequest(w.getId(), List.of(s1.getId(), s2.getId()), broken.getId(), d1.getId(), clock.now()));
         trips.start(trip.getId());
         List<TripStop> before = stopRepository.findByTripIdOrderBySeqAsc(trip.getId());
         trips.completeStop(trip.getId(), before.get(0).getId(), "Recipient", null, null);
@@ -134,7 +134,7 @@ class TripServiceIT extends IntegrationTestSupport {
         Vehicle v = vehicle(w, 2500);
         Driver d = driver(w, "Kiran Rao");
         Shipment s = shipment(w, 30.8, 75.2, 100);
-        Trip trip = trips.plan(new TripService.PlanRequest(w.getId(), List.of(s.getId()), v.getId(), d.getId(), clock.now(), true));
+        Trip trip = trips.plan(new TripService.PlanRequest(w.getId(), List.of(s.getId()), v.getId(), d.getId(), clock.now()));
         trips.cancel(trip.getId(), "Customer postponed");
         Shipment after = shipments.findById(s.getId()).orElseThrow();
         assertThat(after.getStatus()).isEqualTo(ShipmentStatus.CREATED);

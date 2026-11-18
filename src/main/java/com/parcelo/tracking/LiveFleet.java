@@ -1,4 +1,4 @@
-package com.Parcelo.tracking;
+package com.parcelo.tracking;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,22 +16,22 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import com.Parcelo.common.geo.GeoPoint;
-import com.Parcelo.common.geo.RouteLine;
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.fleet.Vehicle;
-import com.Parcelo.fleet.VehicleStatus;
-import com.Parcelo.trip.RouteVersion;
-import com.Parcelo.trip.RouteVersionRepository;
-import com.Parcelo.trip.StopStatus;
-import com.Parcelo.trip.Trip;
-import com.Parcelo.trip.TripEvents;
-import com.Parcelo.trip.TripRepository;
-import com.Parcelo.trip.TripStatus;
-import com.Parcelo.trip.TripStop;
+import com.parcelo.common.geo.GeoPoint;
+import com.parcelo.common.geo.RouteLine;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.fleet.Vehicle;
+import com.parcelo.fleet.VehicleStatus;
+import com.parcelo.trip.RouteVersion;
+import com.parcelo.trip.RouteVersionRepository;
+import com.parcelo.trip.StopStatus;
+import com.parcelo.trip.Trip;
+import com.parcelo.trip.TripEvents;
+import com.parcelo.trip.TripRepository;
+import com.parcelo.trip.TripStatus;
+import com.parcelo.trip.TripStop;
 
 /**
- * Registry of in-progress trips held in memory for tracking, simulation and ETAs.
+ * Registry of in-progress trips held in memory for tracking and ETAs.
  * It is rebuilt from the database on start-up and kept in step by trip events.
  */
 @Component
@@ -137,7 +137,7 @@ public class LiveFleet {
         List<LiveTrip.OpenStop> open = new ArrayList<>();
         LiveTrip probe = new LiveTrip(trip.getId(), trip.getCode(), vehicle.getId(), vehicle.getRegistration(),
             trip.getDriver().getFullName(), rv.getVersionNo(), line, legDistances, legDurations, List.of(),
-            vehicle.isSimulated(), trip.isAutoCompleteStops(), trip.getDelayAdjustMin(), false);
+            trip.getDelayAdjustMin(), false);
         for (TripStop s : trip.getStops()) {
             if (s.getStatus().isDone() || s.getRouteVersionNo() != rv.getVersionNo()) {
                 continue;
@@ -148,7 +148,7 @@ public class LiveFleet {
         }
         LiveTrip lt = new LiveTrip(trip.getId(), trip.getCode(), vehicle.getId(), vehicle.getRegistration(),
             trip.getDriver().getFullName(), rv.getVersionNo(), line, legDistances, legDurations, open,
-            vehicle.isSimulated(), trip.isAutoCompleteStops(), trip.getDelayAdjustMin(),
+            trip.getDelayAdjustMin(),
             vehicle.getStatus() == VehicleStatus.BROKEN_DOWN);
 
         // Where is the vehicle now? Same version: keep live progress. New version: starts at the route origin.

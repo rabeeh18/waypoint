@@ -1,4 +1,4 @@
-package com.Parcelo.trip;
+package com.parcelo.trip;
 
 import java.time.Instant;
 import java.util.Collection;
@@ -54,7 +54,7 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
     @Query("""
         select t from Trip t
         where t.warehouse.id = :warehouseId
-          and (t.status in (com.Parcelo.trip.TripStatus.PLANNED, com.Parcelo.trip.TripStatus.IN_PROGRESS)
+          and (t.status in (com.parcelo.trip.TripStatus.PLANNED, com.parcelo.trip.TripStatus.IN_PROGRESS)
                or t.plannedStart >= :from)
         order by t.plannedStart asc
         """)

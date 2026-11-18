@@ -1,4 +1,4 @@
-package com.Parcelo.simulation;
+package com.parcelo.common.time;
 
 import java.time.Instant;
 
@@ -10,13 +10,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.Parcelo.common.time.OperationalClock;
-import com.Parcelo.config.AppMode;
-import com.Parcelo.settings.SettingsService;
+import com.parcelo.common.time.OperationalClock;
+import com.parcelo.config.AppMode;
+import com.parcelo.settings.SettingsService;
 
 /**
- * Demo: restores the simulation clock on start-up and saves it periodically, so simulated time
- * survives restarts. Production: the clock is real time at 1x and cannot be changed.
+ * Demo: restores the saved clock on start-up and saves it periodically, so the demo day survives
+ * restarts. Production: the clock is plain real time.
  */
 @Component
 public class ClockKeeper {
@@ -43,23 +43,21 @@ public class ClockKeeper {
             log.info("Operational clock on real time");
             return;
         }
-        String saved = settings.get("sim.clock");
+        String saved = settings.get("clock.saved");
         Instant savedAt = saved.isBlank() ? null : Instant.parse(saved);
         clock.restore(savedAt, 1, false);
         restored = true;
-        log.info("Operational clock at {} (speed {}x{})", clock.now(), clock.speed(), clock.paused() ? ", paused" : "");
+        log.info("Operational clock at {}", clock.now());
     }
 
     @Scheduled(fixedDelay = 15_000, initialDelay = 15_000)
     public void save() {
         if (restored) {
-            settings.writeInternal("sim.clock", clock.now().toString());
+            settings.writeInternal("clock.saved", clock.now().toString());
         }
     }
 
     public void saveControls() {
-        settings.writeInternal("sim.speed", String.valueOf(clock.speed()));
-        settings.writeInternal("sim.paused", String.valueOf(clock.paused()));
         save();
     }
 }

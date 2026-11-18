@@ -1,4 +1,4 @@
-package com.Parcelo.common.time;
+package com.parcelo.common.time;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
